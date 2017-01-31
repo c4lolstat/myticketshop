@@ -1,0 +1,15 @@
+# Ignore everything
+*
+
+
+# But not these files...
+!.gitignore
+!README.md
+!src/
+!src/**/*
+!gradle/
+!gradle/**/*
+!gradlew
+!build.gradle
+!gradlew.bat
+!settings.gradle

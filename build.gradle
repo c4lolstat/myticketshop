@@ -1,0 +1,39 @@
+group 'com.epam.www'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+apply plugin: 'pmd'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compile.exclude module: 'commons-logging'
+}
+
+dependencies {
+    // Test
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile 'org.mockito:mockito-all:1.9.5'
+    testCompile 'org.springframework:spring-test:4.0.6.RELEASE'
+
+    // Spring
+    compile 'org.springframework:spring-context:4.0.6.RELEASE'
+
+    // Logging
+    compile "org.slf4j:slf4j-api:1.7.2"
+    compile "ch.qos.logback:logback-classic:1.0.9"
+    compile "org.slf4j:jcl-over-slf4j:1.7.2"
+
+    compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
+}
+
+
+//generate reports
+task reports (dependsOn:['pmdMain','javadoc'])
