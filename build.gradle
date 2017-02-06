@@ -9,6 +9,8 @@ apply plugin: 'pmd'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+mainClassName = "com.epam.www.Main"
+
 repositories {
     mavenCentral()
 }
@@ -32,8 +34,13 @@ dependencies {
     compile "org.slf4j:jcl-over-slf4j:1.7.2"
 
     compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
+
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    compile group: 'com.h2database', name: 'h2', version: '1.4.193'
+
 }
 
 
 //generate reports
 task reports (dependsOn:['pmdMain','javadoc'])
+
