@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <bean id="configProperties"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:application.properties" />
+
+    </bean>
+
+    <bean id = "h2Server"
+          class="org.h2.tools.Server"
+          factory-method="createTcpServer"
+          init-method="start"
+          destroy-method="stop">
+        <constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,8043,-browser" />
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${spring.datasource.driverClassName}" />
+        <property name="url" value="${spring.datasource.url}" />
+        <property name="username" value="${spring.datasource.username}" />
+        <property name="password" value="${spring.datasource.password}" />
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
+        <property name="packagesToScan" value="com.epam.www"/>
+        <property name="jpaProperties">
+            <props>
+                <!-- <beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop> -->
+            </props>
+        </property>
+    </bean>
+
+    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+        <property name="showSql" value="true"/>
+        <property name="generateDdl" value="true"/>
+        <property name="database" value="H2"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>
+
+    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
+        <!--<property name="dataSource" ref="dataSource" />-->
+        <!--<property name="jpaVendorAdapter">-->
+            <!--<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">-->
+                <!--<property name="generateDdl" value="true" />-->
+                <!--<property name="database" value="H2" />-->
+            <!--</bean>-->
+        <!--</property>-->
+        <!--<property name="jpaProperties">-->
+            <!--<props>-->
+                <!--<prop key="hibernate.hbm2ddl.auto">update</prop>-->
+                <!--<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<property name="hibernate.connection.url" value="jdbc:h2:/~test" /> &ndash;&gt;-->
+                <!--<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"></property>-->
+                <!--<property name="hibernate.connection.driver_class" value="org.h2.Driver" />-->
+                <!--<property name="hibernate.connection.password" value="admin" />-->
+                <!--<property name="hibernate.connection.username" value="admin" />-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="hibernateJPA" class="com.epam.www.dataaccess.HibernateJPA"/>
+
+    <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+        <!--<property name="jndiName" value="java:comp/env/jdbc/MySQLDS"/>-->
+        <!--<property name="cache" value="true"/>-->
+        <!--<property name="lookupOnStartup" value="true"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="getJsonFromApiService" class="com.lol.tracker.services.GetJsonFromApiService"/>-->
+    <!--<bean id="securityUtility" class="com.lol.tracker.utility.SecurityUtility"/>-->
+    <!--<bean id="apiService" class="com.lol.tracker.services.ApiService"/>-->
+    <!--<bean id="recordBuilder" class="com.lol.tracker.domain.RecordBuilder"/>-->
+
+    <!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
+        <!--<property name="host" value="${smtp.host}"/>-->
+        <!--<property name="port" value="${smtp.port}"/>-->
+        <!--<property name="username" value="${smtp.user}"/>-->
+        <!--<property name="password" value="${smtp.pass}"/>-->
+        <!--<property name="defaultEncoding" value="UTF-8"/>-->
+        <!--<property name="javaMailProperties">-->
+            <!--<props>-->
+                <!--<prop key="mail.smtp.auth">true</prop>-->
+                <!--<prop key="mail.smtp.starttls.enable">true</prop>-->
+                <!--<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+</beans>

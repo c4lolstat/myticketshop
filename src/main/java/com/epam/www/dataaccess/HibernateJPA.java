@@ -1,6 +1,7 @@
 package com.epam.www.dataaccess;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 
 /**
@@ -9,10 +10,11 @@ import javax.persistence.PersistenceContext;
 public class HibernateJPA {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManagerFactory entityManagerFactory;
 
     public EntityManager getEntityManager (){
-        return this.entityManager;
+        System.out.println(entityManagerFactory.toString());
+        return this.entityManagerFactory.createEntityManager();
     }
 
 

@@ -20,35 +20,44 @@ configurations {
 }
 
 dependencies {
-    // Test
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    testCompile 'org.mockito:mockito-all:1.9.5'
-    testCompile 'org.springframework:spring-test:4.0.6.RELEASE'
 
-    // Spring
-    compile 'org.springframework:spring-context:4.0.6.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework/spring-beans
+    compile group: 'org.springframework', name: 'spring-beans', version: '4.3.6.RELEASE'
 
-    // Logging
-    compile "org.slf4j:slf4j-api:1.7.2"
-    compile "ch.qos.logback:logback-classic:1.0.9"
-    compile "org.slf4j:jcl-over-slf4j:1.7.2"
-//
-    compile "org.codehaus.jackson:jackson-mapper-asl:1.9.13"
+    // https://mvnrepository.com/artifact/org.springframework/spring-context
+    compile (group: 'org.springframework', name: 'spring-context', version: '4.3.6.RELEASE'){
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
 
-    compile 'org.hibernate:hibernate-core:5.1.0.Final'
-    compile 'com.h2database:h2:1.4.191'
+    // https://mvnrepository.com/artifact/org.springframework/spring-context-support
+    compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.6.RELEASE'
 
-    // https://mvnrepository.com/artifact/org.hibernate/hibernate-commons-annotations
-    compile group: 'org.hibernate', name: 'hibernate-commons-annotations', version: '3.2.0.Final'
+    // https://mvnrepository.com/artifact/org.springframework/spring-orm
+    compile group: 'org.springframework', name: 'spring-orm', version: '4.3.6.RELEASE'
 
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.1.RELEASE'
+    // https://mvnrepository.com/artifact/org.springframework/spring-tx
+    compile group: 'org.springframework', name: 'spring-tx', version: '4.3.6.RELEASE'
 
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.1.RELEASE'
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.6.Final'
 
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.1.RELEASE'
+    // https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.6.Final'
+
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    compile group: 'com.h2database', name: 'h2', version: '1.4.193'
+
+    // https://mvnrepository.com/artifact/log4j/log4j
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
+    // https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.22'
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.22'
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.22'
 
 }
 
