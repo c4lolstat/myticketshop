@@ -73,6 +73,10 @@
 
     <bean id="hibernateJPA" class="com.epam.www.dataaccess.HibernateJPA"/>
 
+    <bean id="userHibernate" class="com.epam.www.dataaccess.dao.impl.UserHibernate" >
+        <constructor-arg name="hibernateJPA" ref="hibernateJPA" />
+    </bean>
+
     <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
         <!--<property name="jndiName" value="java:comp/env/jdbc/MySQLDS"/>-->
         <!--<property name="cache" value="true"/>-->
