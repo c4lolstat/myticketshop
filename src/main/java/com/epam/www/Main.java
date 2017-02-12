@@ -15,7 +15,7 @@ public class Main {
     public static void main(String args[]){
         ApplicationContext context = new ClassPathXmlApplicationContext("root-context.xml");
 
-        System.out.print("Hello Spring");
+        System.out.println("Hello Spring");
 
         UserDTO user = new UserDTO.Builder()
                 .setFirstName("Magnolia")
@@ -23,14 +23,16 @@ public class Main {
                 .setEmail("someemail@gmail.com")
                 .setPassword("sobadpassword")
                 .setAccount(5000)
+                .setDiscount("regular")
                 .build();
 
         System.out.println(user);
 
         UserHibernate userHibernate = (UserHibernate) context.getBean("userHibernate");
 
-        System.out.println(userHibernate);
+//        System.out.println(userHibernate);
 
         userHibernate.createUser(user);
+        System.out.println(userHibernate.getUserByEmail("someemail@gmail.com"));
     }
 }

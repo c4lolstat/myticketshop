@@ -1,5 +1,6 @@
 package com.epam.www.dataaccess.dao;
 
+import com.epam.www.dataaccess.entity.User;
 import com.epam.www.dto.UserDTO;
 
 /**
@@ -9,7 +10,7 @@ public interface UserDao {
 
     void update(UserDTO user);
 
-    UserDTO getUserByEmail(final String email);
+    User getUserByEmail(final String email);
 
     void createUser(UserDTO user);
 

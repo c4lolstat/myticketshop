@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
@@ -15,13 +15,14 @@
 
     </bean>
 
-    <bean id = "h2Server"
-          class="org.h2.tools.Server"
-          factory-method="createTcpServer"
-          init-method="start"
-          destroy-method="stop">
-        <constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,8043,-browser" />
-    </bean>
+     <!-- Run H2 web server within application that will access the same in-memory database -->
+    <bean id="h2Server" class="org.h2.tools.Server" factory-method="createTcpServer" init-method="start" destroy-method="stop" depends-on="h2WebServer">
+        <constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092"/>
+    </bean>
+
+    <bean id="h2WebServer" class="org.h2.tools.Server" factory-method="createWebServer" init-method="start" destroy-method="stop">
+        <constructor-arg value="-web,-webAllowOthers,-webPort,8082"/>
+    </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${spring.datasource.driverClassName}" />
@@ -31,23 +32,41 @@
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="embededPU" />
         <property name="dataSource" ref="dataSource"/>
-        <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
-        <property name="packagesToScan" value="com.epam.www"/>
+        <property name="packagesToScan">
+            <list>
+                <value>com.epam.www.dataaccess.entity</value>
+            </list>
+        </property>
+        <property name="persistenceProvider">
+            <bean class="org.hibernate.jpa.HibernatePersistenceProvider" />
+        </property>
         <property name="jpaProperties">
-            <props>
-                <!-- <beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop> -->
-            </props>
+            <map>
+                <entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+                <entry key="hibernate.hbm2ddl.auto" value="create" />
+                <!--<entry key="hibernate.hbm2ddl.import_files" value="import_data.sql" />-->
+                <entry key="hibernate.show_sql" value="true" />
+
+                <entry key="hibernate.connection.url" value="jdbc:h2:/~test" />
+                <entry key="hibernate.connection.password" value="root" />
+                <entry key="hibernate.connection.username" value="root" />
+            </map>
         </property>
     </bean>
 
-    <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-        <property name="showSql" value="true"/>
-        <property name="generateDdl" value="true"/>
-        <property name="database" value="H2"/>
+    <!--<bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">-->
+        <!--<property name="showSql" value="true"/>-->
+        <!--<property name="generateDdl" value="true"/>-->
+        <!--<property name="database" value="H2"/>-->
+    <!--</bean>-->
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"/>
+    <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
 
     <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
         <!--<property name="dataSource" ref="dataSource" />-->
@@ -71,10 +90,12 @@
         <!--</property>-->
     <!--</bean>-->
 
-    <bean id="hibernateJPA" class="com.epam.www.dataaccess.HibernateJPA"/>
+    <bean id="hibernateJPA" class="com.epam.www.dataaccess.HibernateJPA">
+        <!--<constructor-arg name="entityManagerFactory" ref="entityManagerFactory" />-->
+    </bean>
 
     <bean id="userHibernate" class="com.epam.www.dataaccess.dao.impl.UserHibernate" >
-        <constructor-arg name="hibernateJPA" ref="hibernateJPA" />
+        <!--<constructor-arg name="hibernateJPA" ref="hibernateJPA" />-->
     </bean>
 
     <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
