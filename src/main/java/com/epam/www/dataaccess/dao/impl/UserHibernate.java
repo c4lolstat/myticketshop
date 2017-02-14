@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by Farkas on 2017.02.11..
  */
+@Repository
 public class UserHibernate implements UserDao {
 
     HibernateJPA hibernateJPA;
@@ -29,9 +30,10 @@ public class UserHibernate implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
-        String query = "FROM User r WHERE r.email=?1";
-        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, email).getResultList();
-        return userRecord.get(0);
+//        String query = "FROM User r WHERE r.email=?1";
+//        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, email).getResultList();
+//        return userRecord.get(0);
+        return new User();
     }
 
     @Override

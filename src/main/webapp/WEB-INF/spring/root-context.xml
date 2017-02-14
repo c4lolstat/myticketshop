@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:c="http://www.springframework.org/schema/c" xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <!-- Root Context: defines shared resources visible to all other web components -->
+    <!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" -->
+    <!-- p:location="/WEB-INF/jdbc.properties"/> -->
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:config.properties" />
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${spring.datasource.driverClassName}" />
+        <property name="url" value="${spring.datasource.url}" />
+        <property name="username" value="${spring.datasource.username}" />
+        <property name="password" value="${spring.datasource.password}" />
+    </bean>
+
+    <bean id="hibernateJPA" class="com.epam.www.dataaccess.HibernateJPA" />
+
+
+    <bean id="userHibernate" class="com.epam.www.dataaccess.dao.impl.UserHibernate" >
+        <constructor-arg name="hibernateJPA" ref="hibernateJPA" />
+    </bean>
+
+    <!--<bean id="getJsonFromApiService" class="com.lol.tracker.services.GetJsonFromApiService"/>-->
+    <!--<bean id="securityUtility" class="com.lol.tracker.utility.SecurityUtility"/>-->
+    <!--<bean id="apiService" class="com.lol.tracker.services.ApiService"/>-->
+    <!--<bean id="recordBuilder" class="com.lol.tracker.domain.RecordBuilder"/>-->
+
+</beans>
