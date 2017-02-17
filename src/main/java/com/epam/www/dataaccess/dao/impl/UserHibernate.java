@@ -4,7 +4,11 @@ import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.*;
 import com.epam.www.dataaccess.entity.User;
 import com.epam.www.dto.UserDTO;
+import org.hibernate.annotations.NamedQuery;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +16,7 @@ import java.util.List;
  * Created by Farkas on 2017.02.11..
  */
 @Repository
+@Transactional
 public class UserHibernate implements UserDao {
 
     HibernateJPA hibernateJPA;
@@ -30,10 +35,9 @@ public class UserHibernate implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
-//        String query = "FROM User r WHERE r.email=?1";
-//        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, email).getResultList();
-//        return userRecord.get(0);
-        return new User();
+        String query = "FROM User u WHERE u.email=?1";
+        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, email).getResultList();
+       return userRecord.get(0);
     }
 
     @Override

@@ -14,57 +14,28 @@ public class UserDTO {
     private long account;
     private String discount;
 
-    public static class Builder {
-
-        private String firstName = "";
-        private String lastName = "";
-        private String password = "";
-        private String email = "";
-        private long account = 0;
-        private String discount = "";
-
-        public Builder setFirstName(final String  firstName){
-            this.firstName = firstName;
-            return this;
-        }
-
-        public Builder setLastName(final String lastName){
-            this.lastName = lastName;
-            return this;
-        }
-
-        public Builder setPassword(final String password){
-            this.password = password;
-            return this;
-        }
-
-        public Builder setEmail(final String email){
-            this.email = email;
-            return this;
-        }
-
-        public Builder setAccount(final long account){
-            this.account = account;
-            return this;
-        }
-
-        public Builder setDiscount(final String discount){
-            this.discount = discount;
-            return this;
-        }
-
-        public UserDTO build(){
-            return new UserDTO(this);
-        }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    private UserDTO(Builder builder){
-        firstName = builder.firstName;
-        lastName = builder.lastName;
-        email = builder.email;
-        password = builder.password;
-        account = builder.account;
-        discount = builder.discount;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAccount(long account) {
+        this.account = account;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
     }
 
     public String getFirstName() {
@@ -93,7 +64,7 @@ public class UserDTO {
 
     @Override
     public String toString() {
-        return "Builder{" +
+        return "UserDTO{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +

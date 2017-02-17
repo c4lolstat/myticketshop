@@ -1,6 +1,11 @@
 package com.epam.www.dataaccess.entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.NamedQuery;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Created by Farkas on 2017.02.07..

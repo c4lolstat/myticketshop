@@ -9,6 +9,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
 	<context:component-scan base-package="com.epam.www" />
+	<tx:annotation-driven />
 
 	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:config.properties" />
@@ -63,8 +64,8 @@
 		<!--<constructor-arg name="entityManagerFactory" ref="entityManagerFactory" />-->
 	</bean>
 
-	<!--<bean id="userHibernate" class="com.epam.www.dataaccess.dao.impl.UserHibernate" >-->
-		<!--<constructor-arg name="hibernateJPA" ref="hibernateJPA" />-->
-	<!--</bean>-->
+	<bean id="userHibernate" class="com.epam.www.dataaccess.dao.impl.UserHibernate" >
+		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
+	</bean>
 
 </beans>
