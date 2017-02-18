@@ -8,4 +8,10 @@ import com.epam.www.dto.UserDTO;
 public interface IUserService {
 
     void createUser(UserDTO userDTO);
+
+    void deleteUser(UserDTO userDTO);
+
+    UserDTO getUserByEmail(String email);
+
+    void updateUser(UserDTO userDTO);
 }

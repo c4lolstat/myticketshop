@@ -28,9 +28,9 @@ public class UserHibernate implements UserDao {
 
     @Override
     public void update(UserDTO userDTO) {
-        User user = new User();
+        User user = this.getUserByEmail(userDTO.getEmail());
         this.update(user, userDTO);
-        this.hibernateJPA.getEntityManager().refresh(user);
+        this.hibernateJPA.getEntityManager().flush();
     }
 
     @Override
@@ -42,7 +42,6 @@ public class UserHibernate implements UserDao {
 
     @Override
     public void createUser(UserDTO userDTO) {
-
         User user = new User();
         this.update(user, userDTO);
         this.hibernateJPA.getEntityManager().persist(user);
@@ -51,7 +50,8 @@ public class UserHibernate implements UserDao {
 
     @Override
     public void deleteUser(String email) {
-
+        User user = this.getUserByEmail(email);
+        this.hibernateJPA.getEntityManager().remove(user);
     }
 
     private void update(User user, UserDTO userDTO){

@@ -14,6 +14,15 @@ public class UserDTO {
     private long account;
     private String discount;
 
+    public UserDTO(User user){
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+        this.account = user.getAccount();
+        this.discount = user.getDiscount();
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
