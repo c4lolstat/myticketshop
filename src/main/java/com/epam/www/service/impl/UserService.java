@@ -23,8 +23,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteUser(UserDTO userDTO) {
-        userDao.deleteUser(userDTO.getEmail());
+    public void deleteUser(String email) {
+        userDao.deleteUser(email);
     }
 
     @Override

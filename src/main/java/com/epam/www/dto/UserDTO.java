@@ -2,17 +2,22 @@ package com.epam.www.dto;
 
 import com.epam.www.dataaccess.entity.User;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Created by Farkas on 2017.02.11..
  */
 public class UserDTO {
 
-    private String firstName;
-    private String lastName;
-    private String password;
-    private String email;
+    private String firstName = "";
+    private String lastName = "";
+    private String password = "";
+    private String email = "";
     private long account;
-    private String discount;
+    private String discount = "";
+
+    public UserDTO(){}
 
     public UserDTO(User user){
         this.firstName = user.getFirstName();
@@ -22,6 +27,7 @@ public class UserDTO {
         this.account = user.getAccount();
         this.discount = user.getDiscount();
     }
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

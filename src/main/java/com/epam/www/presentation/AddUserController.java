@@ -3,14 +3,21 @@ package com.epam.www.presentation;
 import com.epam.www.dto.UserDTO;
 import com.epam.www.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 /**
- * Created by Farkas on 2017.02.17..**/
-@Controller
+ * Create user controller.
+ * Map controller to /createuser.
+ */
+@RestController
 @RequestMapping(value = "/createuser")
 public class AddUserController {
 
@@ -19,10 +26,18 @@ public class AddUserController {
     @Autowired
     private IUserService userService;
 
-    @RequestMapping(method = RequestMethod.POST)
-    public String createUser(@RequestBody UserDTO userDTO){
-        System.out.println(userDTO.toString());
-        userService.createUser(userDTO);
-        return "createuser";
+    /**
+     * createUser. Persist new user data into DB. Using userService.
+     * @param userDTO DTO that hold the data for the new user.
+     * @return JSON with HTTP status.
+     * */
+    @RequestMapping(method = RequestMethod.POST,produces = "application/json")
+    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO){
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        if (!userDTO.getEmail().isEmpty() && !userDTO.getPassword().isEmpty()) {
+            httpStatus = HttpStatus.OK;
+            userService.createUser(userDTO);
+        }
+        return new ResponseEntity<UserDTO>(userDTO, httpStatus);
     }
 }
