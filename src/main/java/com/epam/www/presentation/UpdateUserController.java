@@ -1,6 +1,5 @@
 package com.epam.www.presentation;
 
-import com.epam.www.dto.CredentialDTO;
 import com.epam.www.dto.UserDTO;
 import com.epam.www.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,31 +11,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Get user controller.
- * Map controller to /getuser.
+ * Update user controller.
+ * Map controller to /updateuser.
  */
-@RestController
-@RequestMapping(value = "/getuser")
-public class getUserController {
 
-    //{"email":"kevin.smith@gmail.com","password":"1234"}
+@RestController
+@RequestMapping(value = "/updateuser")
+public class UpdateUserController {
+
+    //{"firstName":"Magnolia","lastName":"Rajongo","email":"kevin.smith@gmail.com","password":"4321","account":"333","discount":"bday"}
 
     @Autowired
     private IUserService userService;
 
     /**
-     * getUser. Select user data from DB. Using userService.
-     * @param credentialDTO DTO that hold the user email and password.
-     * @return User data in JSON format.
+     * updateUser. update existing user data in DB. Using userService.
+     * @param userDTO DTO that hold the update data for the user.
+     * @return JSON with HTTP status.
      * */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<UserDTO> getUser(@RequestBody CredentialDTO credentialDTO){
-        UserDTO selectedUser = new UserDTO();
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        if (!credentialDTO.getEmail().isEmpty() && !credentialDTO.getPassword().isEmpty()) {
+        if (!userDTO.getEmail().isEmpty() && !userDTO.getPassword().isEmpty()) {
             httpStatus = HttpStatus.OK;
-            selectedUser = userService.getUserByEmail(credentialDTO.getEmail());
+            userService.updateUser(userDTO);
         }
-        return new ResponseEntity<UserDTO>(selectedUser, httpStatus);
+        return new ResponseEntity<UserDTO>(userDTO, httpStatus);
     }
 }

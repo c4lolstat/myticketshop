@@ -48,6 +48,11 @@ dependencies {
 	// https://mvnrepository.com/artifact/cglib/cglib
 	compile group: 'cglib', name: 'cglib', version: '3.2.4'
 
+	// https://mvnrepository.com/artifact/org.mockito/mockito-all
+	compile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+
+	// https://mvnrepository.com/artifact/junit/junit
+	compile group: 'junit', name: 'junit', version: '4.12'
 
 }
 
