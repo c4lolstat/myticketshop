@@ -34,8 +34,13 @@ public class ReadUserController {
         UserDTO selectedUser = new UserDTO();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if (!credentialDTO.getEmail().isEmpty() && !credentialDTO.getPassword().isEmpty()) {
-            httpStatus = HttpStatus.OK;
-            selectedUser = userService.getUserByEmail(credentialDTO.getEmail());
+            UserDTO tmpUser = userService.getUserByEmail(credentialDTO.getEmail());
+            if (credentialDTO.getPassword().equals(tmpUser.getPassword())){
+                httpStatus = HttpStatus.OK;
+                selectedUser = tmpUser;
+            }else{
+                httpStatus = HttpStatus.UNAUTHORIZED;
+            }
         }
         return new ResponseEntity<UserDTO>(selectedUser, httpStatus);
     }

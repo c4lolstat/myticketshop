@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface UserDao {
 
-    void update(UserDTO user);
+    void updateUser(UserDTO user);
 
     User getUserByEmail(final String email);
 

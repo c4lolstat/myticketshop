@@ -27,7 +27,7 @@ public class UserHibernate implements UserDao {
 
 
     @Override
-    public void update(UserDTO userDTO) {
+    public void updateUser(UserDTO userDTO) {
         User user = this.getUserByEmail(userDTO.getEmail());
         this.update(user, userDTO);
         this.hibernateJPA.getEntityManager().flush();

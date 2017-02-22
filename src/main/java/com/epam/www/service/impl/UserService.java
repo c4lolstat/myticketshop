@@ -29,13 +29,13 @@ public class UserService implements IUserService {
 
     @Override
     public UserDTO getUserByEmail(String email) {
-       User user = userDao.getUserByEmail(email);
+        User user = userDao.getUserByEmail(email);
         return new UserDTO(user);
     }
 
     @Override
     public void updateUser(UserDTO userDTO) {
-        userDao.update(userDTO);
+        userDao.updateUser(userDTO);
     }
 
 
