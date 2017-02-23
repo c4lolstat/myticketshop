@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class UserHibernate implements UserDao {
 
-    HibernateJPA hibernateJPA;
+    private HibernateJPA hibernateJPA;
 
     public UserHibernate (HibernateJPA hibernateJPA){
         this.hibernateJPA = hibernateJPA;

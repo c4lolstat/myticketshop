@@ -68,4 +68,8 @@
 		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
 	</bean>
 
+	<bean id="eventHibernate" class="com.epam.www.dataaccess.dao.impl.EventHibernate" >
+		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
+	</bean>
+
 </beans>
