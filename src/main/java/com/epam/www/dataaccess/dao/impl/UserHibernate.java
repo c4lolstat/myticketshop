@@ -45,7 +45,6 @@ public class UserHibernate implements UserDao {
         User user = new User();
         this.update(user, userDTO);
         this.hibernateJPA.getEntityManager().persist(user);
-
     }
 
     @Override

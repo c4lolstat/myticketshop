@@ -13,15 +13,15 @@ public class EventDTO {
     private String title = "";
     private long hash;
     private long price;
-    private LocalDate startDate = LocalDate.MIN;
-    private LocalDate endDate = LocalDate.MIN;
-    private LocalTime hour = LocalTime.MIDNIGHT;
+    private long startDate;
+    private long endDate;
+    private long hour;
     private String auditorium = "";
     private long counter;
 
-    private EventDTO(){}
+    public EventDTO(){}
 
-    private EventDTO(Event event){
+    public EventDTO(Event event){
         this.title = event.getTitle();
         this.hash = event.getHash();
         this.price = event.getPrice();
@@ -56,27 +56,27 @@ public class EventDTO {
         this.price = price;
     }
 
-    public LocalDate getStartDate() {
+    public long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(long startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(long endDate) {
         this.endDate = endDate;
     }
 
-    public LocalTime getHour() {
+    public long getHour() {
         return hour;
     }
 
-    public void setHour(LocalTime hour) {
+    public void setHour(long hour) {
         this.hour = hour;
     }
 
@@ -95,4 +95,5 @@ public class EventDTO {
     public void setCounter(long counter) {
         this.counter = counter;
     }
+
 }
