@@ -9,6 +9,8 @@ import com.epam.www.dto.UserDTO;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by Farkas on 2017.02.23..
  */
@@ -35,13 +37,15 @@ public class EventHibernate implements EventDao {
     }
 
     @Override
-    public void deleteEvent(long hash) {
+    public void deleteEvent(int id) {
 
     }
 
     @Override
-    public Event readEvent(long hash) {
-        return null;
+    public Event readEventById(int id) {
+        String query = "FROM Event e WHERE e.id=?1";
+        List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query, Event.class).setParameter(1, id).getResultList();
+        return eventRecord.get(0);
     }
 
     private void update(Event event, EventDTO eventDTO){
@@ -52,10 +56,5 @@ public class EventHibernate implements EventDao {
         event.setPrice(eventDTO.getPrice());
         event.setStartDate(eventDTO.getStartDate());
         event.setTitle(eventDTO.getTitle());
-        event.setHash(this.generateHash(event));
-    }
-
-    private long generateHash(Event event){
-        return 42;
     }
 }

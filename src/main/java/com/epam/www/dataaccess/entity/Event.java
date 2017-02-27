@@ -17,7 +17,6 @@ public class Event{
     private int id;
 
     private String title = "";
-    private long hash;
     private long price;
     private long startDate;
     private long endDate;
@@ -39,14 +38,6 @@ public class Event{
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public long getHash() {
-        return hash;
-    }
-
-    public void setHash(long hash) {
-        this.hash = hash;
     }
 
     public long getPrice() {

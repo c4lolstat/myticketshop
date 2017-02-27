@@ -12,7 +12,7 @@ public interface IEventService {
 
     void updateEvent(EventDTO eventDTO);
 
-    void deleteEvent(final long hash);
+    void deleteEvent(final int id);
 
-    Event readEvent(final long hash);
+    EventDTO readEventById(final int id);
 }

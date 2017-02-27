@@ -14,14 +14,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 
 /**
- * Created by Farkas on 2017.02.26..
+ * Created by Farkas on 2017.02.27..
  */
-
 @RunWith(MockitoJUnitRunner.class)
-public class CreateEventControllerTest {
+public class ReadEventControllerTest {
 
     private EventDTO eventDTO;
 
@@ -29,7 +29,7 @@ public class CreateEventControllerTest {
     private IEventService eventService;
 
     @InjectMocks
-    private CreateEventController createEventController = new CreateEventController();
+    private ReadEventController readEventController = new ReadEventController();
 
     @Before
     public void setup(){
@@ -45,15 +45,17 @@ public class CreateEventControllerTest {
     }
 
     @Test
-    public void givenProperInputWhenEventCreatedThenResponseCorrect() {
-        ResponseEntity<EventDTO> result = createEventController.createEvent(eventDTO);
-        assertEquals(eventDTO, result.getBody());
+    public void givenProperInputWhenEventRetrievedThenResponseCorrect(){
+        Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
+        ResponseEntity<EventDTO> result = readEventController.getEvent(anyInt());
+        assertEquals(eventDTO,result.getBody());
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
-    public void givenProperInputWhenUserCreatedThenServiceMethodCalled(){
-        createEventController.createEvent(eventDTO);
-        Mockito.verify(eventService, Mockito.times(1)).createEvent(any(EventDTO.class));
+    public void givenProperInputWhenEventRetrievedThenServiceMethodCalled(){
+        Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
+        readEventController.getEvent(anyInt());
+        Mockito.verify(eventService, Mockito.times(1)).readEventById(anyInt());
     }
 }

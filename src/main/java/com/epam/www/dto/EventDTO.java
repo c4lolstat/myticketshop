@@ -10,8 +10,8 @@ import java.time.LocalTime;
  */
 public class EventDTO {
 
+    private int id;
     private String title = "";
-    private long hash;
     private long price;
     private long startDate;
     private long endDate;
@@ -22,8 +22,8 @@ public class EventDTO {
     public EventDTO(){}
 
     public EventDTO(Event event){
+        this.id = event.getId();
         this.title = event.getTitle();
-        this.hash = event.getHash();
         this.price = event.getPrice();
         this.startDate = event.getStartDate();
         this.endDate = event.getEndDate();
@@ -32,20 +32,20 @@ public class EventDTO {
         this.counter = event.getCounter();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public long getHash() {
-        return hash;
-    }
-
-    public void setHash(long hash) {
-        this.hash = hash;
     }
 
     public long getPrice() {
