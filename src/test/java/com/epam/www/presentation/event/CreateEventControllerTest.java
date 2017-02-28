@@ -1,7 +1,7 @@
-package com.epam.www.presentation;
+package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.dto.UserDTO;
+import com.epam.www.presentation.event.CreateEventController;
 import com.epam.www.service.IEventService;
 import org.junit.Before;
 import org.junit.Test;

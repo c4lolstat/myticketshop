@@ -1,7 +1,7 @@
-package com.epam.www.presentation;
+package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.dto.UserDTO;
+import com.epam.www.presentation.event.DeleteEventController;
 import com.epam.www.service.IEventService;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,13 +15,13 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 
 /**
- * Created by Farkas on 2017.02.27..
+ * Created by Farkas on 2017.02.28..
  */
 @RunWith(MockitoJUnitRunner.class)
-public class ReadEventControllerTest {
+public class DeleteEventControllerTest {
+
 
     private EventDTO eventDTO;
 
@@ -29,7 +29,7 @@ public class ReadEventControllerTest {
     private IEventService eventService;
 
     @InjectMocks
-    private ReadEventController readEventController = new ReadEventController();
+    private DeleteEventController deleteEventController = new DeleteEventController();
 
     @Before
     public void setup(){
@@ -45,17 +45,14 @@ public class ReadEventControllerTest {
     }
 
     @Test
-    public void givenProperInputWhenEventRetrievedThenResponseCorrect(){
-        Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
-        ResponseEntity<EventDTO> result = readEventController.getEvent(anyInt());
-        assertEquals(eventDTO,result.getBody());
+    public void givenProperInputWhenEventDeletedThenResponseCorrect(){
+        ResponseEntity<EventDTO> result = deleteEventController.deleteEvent(anyInt());
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
-    public void givenProperInputWhenEventRetrievedThenServiceMethodCalled(){
-        Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
-        readEventController.getEvent(anyInt());
-        Mockito.verify(eventService, Mockito.times(1)).readEventById(anyInt());
+    public void givenProperInputWhenEventDeletedThenServiceMethodCalled(){
+        deleteEventController.deleteEvent(anyInt());
+        Mockito.verify(eventService, Mockito.times(1)).deleteEvent(anyInt());
     }
 }

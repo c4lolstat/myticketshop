@@ -1,4 +1,4 @@
-package com.epam.www.presentation;
+package com.epam.www.presentation.user;
 
 import com.epam.www.dto.CredentialDTO;
 import com.epam.www.dto.UserDTO;

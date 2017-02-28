@@ -1,7 +1,7 @@
-package com.epam.www.presentation;
+package com.epam.www.presentation.user;
 
-import com.epam.www.dto.CredentialDTO;
 import com.epam.www.dto.UserDTO;
+import com.epam.www.presentation.user.UpdateUserController;
 import com.epam.www.service.IUserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 
 /**
  * Created by Farkas on 2017.02.22..

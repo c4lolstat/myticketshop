@@ -1,6 +1,7 @@
-package com.epam.www.presentation;
+package com.epam.www.presentation.user;
 
 import com.epam.www.dto.UserDTO;
+import com.epam.www.presentation.user.CreateUserController;
 import com.epam.www.service.IUserService;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package com.epam.www.presentation;
+package com.epam.www.presentation.event;
 
 /**
  * Created by Farkas on 2017.02.26..

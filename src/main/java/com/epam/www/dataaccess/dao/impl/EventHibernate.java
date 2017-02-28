@@ -33,12 +33,15 @@ public class EventHibernate implements EventDao {
 
     @Override
     public void updateEvent(EventDTO eventDTO) {
-
+        Event event = this.readEventById(eventDTO.getId());
+        this.update(event, eventDTO);
+        this.hibernateJPA.getEntityManager().flush();
     }
 
     @Override
     public void deleteEvent(int id) {
-
+        Event event = this.readEventById(id);
+        this.hibernateJPA.getEntityManager().remove(event);
     }
 
     @Override

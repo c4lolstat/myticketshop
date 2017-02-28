@@ -26,12 +26,12 @@ public class EventService implements IEventService {
 
     @Override
     public void updateEvent(EventDTO eventDTO) {
-
+        eventDao.updateEvent(eventDTO);
     }
 
     @Override
     public void deleteEvent(int id) {
-
+        eventDao.deleteEvent(id);
     }
 
     @Override
