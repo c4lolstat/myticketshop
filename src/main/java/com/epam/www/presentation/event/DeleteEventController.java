@@ -22,13 +22,17 @@ public class DeleteEventController {
     private IEventService eventService;
 
     /**
-     * getUser. Select user data from DB. Using userService.
-     * @param id that hold the user email and password.
-     * @return User data in JSON format.
+     * deleteEvent. Delete event data from DB. Using eventService.
+     * @param eventDTO that hold the id of the event.
+     * @return http status in JSON format.
      * */
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<EventDTO> deleteEvent(@RequestBody int id){
-        eventService.deleteEvent(id);
-        return new ResponseEntity<EventDTO>(HttpStatus.OK);
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<EventDTO> deleteEvent(@RequestBody EventDTO eventDTO){
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        if (eventDTO.getId() > 0){
+            httpStatus = HttpStatus.OK;
+            eventService.deleteEvent(eventDTO.getId());
+        }
+        return new ResponseEntity<EventDTO>(httpStatus);
     }
 }

@@ -1,7 +1,6 @@
 package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.presentation.event.ReadEventController;
 import com.epam.www.service.IEventService;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 
 /**
@@ -46,7 +46,7 @@ public class ReadEventControllerTest {
     @Test
     public void givenProperInputWhenEventRetrievedThenResponseCorrect(){
         Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
-        ResponseEntity<EventDTO> result = readEventController.getEvent(anyInt());
+        ResponseEntity<EventDTO> result = readEventController.getEvent(eventDTO);
         assertEquals(eventDTO,result.getBody());
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
@@ -54,7 +54,14 @@ public class ReadEventControllerTest {
     @Test
     public void givenProperInputWhenEventRetrievedThenServiceMethodCalled(){
         Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
-        readEventController.getEvent(anyInt());
+        readEventController.getEvent(eventDTO);
         Mockito.verify(eventService, Mockito.times(1)).readEventById(anyInt());
+    }
+
+    @Test
+    public void givenInputWithZeroIdWhenEventRetrievedThenResponseIsBadRequest(){
+        eventDTO.setId(0);
+        ResponseEntity<EventDTO> result = readEventController.getEvent(eventDTO);
+        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
 }

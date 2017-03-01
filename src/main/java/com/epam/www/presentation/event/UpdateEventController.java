@@ -17,18 +17,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/updateevent")
 public class UpdateEventController{
 
+//    {"title":"Dogma","startDate":"12345665","endDate":"14987456","hour":"4321","price":"1990","counter":"0","auditorium":"Universal"}
 
     @Autowired
     private IEventService eventService;
 
     /**
-     * getUser. Select user data from DB. Using userService.
+     * updateEvent. Update event data from DB. Using userService.
      * @param eventDTO that hold the user email and password.
-     * @return User data in JSON format.
+     * @return Event data in JSON format.
      * */
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<EventDTO> updateEvent(@RequestBody EventDTO eventDTO){
-        eventService.updateEvent(eventDTO);
-        return new ResponseEntity<EventDTO>(eventDTO, HttpStatus.OK);
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        if (eventDTO.getId() > 0){
+            httpStatus = HttpStatus.OK;
+            eventService.updateEvent(eventDTO);
+        }
+        return new ResponseEntity<EventDTO>(eventDTO, httpStatus);
     }
 }

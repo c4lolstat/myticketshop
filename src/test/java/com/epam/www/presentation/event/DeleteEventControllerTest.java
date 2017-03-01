@@ -1,7 +1,6 @@
 package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.presentation.event.DeleteEventController;
 import com.epam.www.service.IEventService;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 
 /**
@@ -46,13 +46,20 @@ public class DeleteEventControllerTest {
 
     @Test
     public void givenProperInputWhenEventDeletedThenResponseCorrect(){
-        ResponseEntity<EventDTO> result = deleteEventController.deleteEvent(anyInt());
+        ResponseEntity<EventDTO> result = deleteEventController.deleteEvent(eventDTO);
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
     public void givenProperInputWhenEventDeletedThenServiceMethodCalled(){
-        deleteEventController.deleteEvent(anyInt());
+        deleteEventController.deleteEvent(eventDTO);
         Mockito.verify(eventService, Mockito.times(1)).deleteEvent(anyInt());
+    }
+
+    @Test
+    public void givenInputWithZeroIdWhenEventRetrievedThenResponseIsBadRequest(){
+        eventDTO.setId(0);
+        ResponseEntity<EventDTO> result = deleteEventController.deleteEvent(eventDTO);
+        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
 }

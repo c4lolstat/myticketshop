@@ -15,14 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(value = "/createevent")
 public class CreateEventController {
+
+//    {"title":"Jay and Silent Bob strike back","startDate":"12345665","endDate":"14987456","hour":"4321","price":"990","counter":"0","auditorium":"Universal"}
 
     @Autowired
     private IEventService eventService;
 
     /**
-     * createUser. Persist new user data into DB. Using userService.
-     * @param eventDTO DTO that hold the data for the new user.
+     * createEvent. Persist new event data into DB. Using eventService.
+     * @param eventDTO DTO that hold the data for the new event.
      * @return JSON with HTTP status.
      * */
     @RequestMapping(method = RequestMethod.POST,produces = "application/json")

@@ -43,15 +43,22 @@ public class UpdateEventControllerTest{
     }
 
     @Test
-    public void givenProperInputWhenUserUpdatedThenResponseCorrect(){
+    public void givenProperInputWhenEventUpdatedThenResponseCorrect(){
         ResponseEntity<EventDTO> result = updateEventController.updateEvent(eventDTO);
         assertEquals(eventDTO, result.getBody());
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
-    public void givenProperInputWhenUserUpdatedThenServiceMethodCalled(){
+    public void givenProperInputWhenEventUpdatedThenServiceMethodCalled(){
         updateEventController.updateEvent(eventDTO);
         Mockito.verify(eventService, Mockito.times(1)).updateEvent(any(EventDTO.class));
+    }
+
+    @Test
+    public void givenInputWithZeroIdWhenEventUpdatedThenResponseIsBadRequest(){
+        eventDTO.setId(0);
+        ResponseEntity<EventDTO> result = updateEventController.updateEvent(eventDTO);
+        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
 }
