@@ -1,37 +1,38 @@
 package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.service.IEventService;
+import com.epam.www.service.EventService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Farkas on 2017.02.27..
  */
 @RestController
-@RequestMapping(value = "/getevent")
+@RequestMapping(value = "/event/{id}")
 public class ReadEventController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReadEventController.class);
+
     @Autowired
-    private IEventService eventService;
+    private EventService eventService;
 
     /**
      * getEvent. Select user data from DB. Using eventService.
-     * @param eventDTO that hold the id of the event.
+     * @param id that hold the id of the event.
      * @return Event data in JSON format.
      * */
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<EventDTO> getEvent(@RequestBody EventDTO eventDTO){
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<EventDTO> getEvent(@PathVariable(name = "id",required = true) int id){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         EventDTO result = new EventDTO();
-        if (eventDTO.getId() > 0){
+        if (id > 0){
             httpStatus = HttpStatus.OK;
-            result = eventService.readEventById(eventDTO.getId());
+            result = eventService.readEventById(id);
         }
         return new ResponseEntity<EventDTO>(result, httpStatus);
     }

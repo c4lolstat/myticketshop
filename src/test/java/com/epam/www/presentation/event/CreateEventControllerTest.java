@@ -1,8 +1,7 @@
 package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.presentation.event.CreateEventController;
-import com.epam.www.service.IEventService;
+import com.epam.www.service.EventService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +25,7 @@ public class CreateEventControllerTest {
     private EventDTO eventDTO;
 
     @Mock
-    private IEventService eventService;
+    private EventService eventService;
 
     @InjectMocks
     private CreateEventController createEventController = new CreateEventController();

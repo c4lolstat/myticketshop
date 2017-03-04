@@ -6,7 +6,7 @@ import com.epam.www.dto.EventDTO;
 /**
  * Created by Farkas on 2017.02.23..
  */
-public interface IEventService {
+public interface EventService {
 
     void createEvent(EventDTO eventDto);
 

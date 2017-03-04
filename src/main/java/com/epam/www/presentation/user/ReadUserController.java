@@ -2,45 +2,41 @@ package com.epam.www.presentation.user;
 
 import com.epam.www.dto.CredentialDTO;
 import com.epam.www.dto.UserDTO;
-import com.epam.www.service.IUserService;
+import com.epam.www.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Get user controller.
  * Map controller to /getuser.
  */
 @RestController
-@RequestMapping(value = "/getuser")
+@RequestMapping(value = "/user/{id}")
 public class ReadUserController {
 
     //{"email":"kevin.smith@gmail.com","password":"1234"}
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReadUserController.class);
+
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     /**
      * getUser. Select user data from DB. Using userService.
-     * @param credentialDTO DTO that hold the user email and password.
+     * @param id of the usert to get.
      * @return User data in JSON format.
      * */
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<UserDTO> getUser(@RequestBody CredentialDTO credentialDTO){
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<UserDTO> getUser(@PathVariable(name = "id",required = true)int id){
         UserDTO selectedUser = new UserDTO();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        if (!credentialDTO.getEmail().isEmpty() && !credentialDTO.getPassword().isEmpty()) {
-            UserDTO tmpUser = userService.getUserByEmail(credentialDTO.getEmail());
-            if (credentialDTO.getPassword().equals(tmpUser.getPassword())){
-                httpStatus = HttpStatus.OK;
-                selectedUser = tmpUser;
-            }else{
-                httpStatus = HttpStatus.UNAUTHORIZED;
-            }
+        if (id > 0) {
+            selectedUser = userService.getUserById(id);
+            httpStatus = HttpStatus.OK;
         }
         return new ResponseEntity<UserDTO>(selectedUser, httpStatus);
     }

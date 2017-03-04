@@ -2,8 +2,7 @@ package com.epam.www.presentation.user;
 
 import com.epam.www.dto.CredentialDTO;
 import com.epam.www.dto.UserDTO;
-import com.epam.www.presentation.user.ReadUserController;
-import com.epam.www.service.IUserService;
+import com.epam.www.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 
 /**
@@ -25,11 +25,14 @@ import static org.mockito.Matchers.anyString;
 public class ReadUserControllerTest {
     //{"firstName":"Magnolia","lastName":"Rajongo","email":"kevin.smith@gmail.com","password":"1234","account":"555","discount":"normal"}
 
+    private static final int GOOD_ID = 2;
+    private static final int BAD_ID = 0;
+
     private CredentialDTO credentialDTO;
     private UserDTO userDTO;
 
     @Mock
-    private IUserService userService;
+    private UserService userService;
 
     @InjectMocks
     private ReadUserController readUserController = new ReadUserController();
@@ -51,39 +54,23 @@ public class ReadUserControllerTest {
 
     @Test
     public void givenProperInputWhenUserRetrievedThenResponseCorrect(){
-        Mockito.when(userService.getUserByEmail(anyString())).thenReturn(userDTO);
-        ResponseEntity<UserDTO> result = readUserController.getUser(credentialDTO);
+        Mockito.when(userService.getUserById(anyInt())).thenReturn(userDTO);
+        ResponseEntity<UserDTO> result = readUserController.getUser(GOOD_ID);
         assertEquals(userDTO,result.getBody());
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
     public void givenProperInputWhenUserRetrievedThenServiceMethodCalled(){
-        Mockito.when(userService.getUserByEmail(anyString())).thenReturn(userDTO);
-        readUserController.getUser(credentialDTO);
-        Mockito.verify(userService, Mockito.times(1)).getUserByEmail(anyString());
+        Mockito.when(userService.getUserById(anyInt())).thenReturn(userDTO);
+        readUserController.getUser(GOOD_ID);
+        Mockito.verify(userService, Mockito.times(1)).getUserById(anyInt());
     }
 
     @Test
-    public void givenEmptyEmailWhenUserRetrievedThenResponseIsBadRequest(){
-        credentialDTO.setEmail("");
-        ResponseEntity<UserDTO> result = readUserController.getUser(credentialDTO);
+    public void givenEmptyIdWhenUserRetrievedThenResponseIsBadRequest(){
+        ResponseEntity<UserDTO> result = readUserController.getUser(BAD_ID);
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
 
-    @Test
-    public void givenEmptyPasswordWhenUserRetrievedThenResponseIsBadRequest(){
-        credentialDTO.setPassword("");
-        ResponseEntity<UserDTO> result = readUserController.getUser(credentialDTO);
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
-    @Test
-    public void givenWrongPasswordWhenUserRetrievedThenResponseIsUnauthorized(){
-        credentialDTO.setPassword("4321");
-        Mockito.when(userService.getUserByEmail(anyString())).thenReturn(userDTO);
-        ResponseEntity<UserDTO> result = readUserController.getUser(credentialDTO);
-        assertNotEquals(userDTO,result.getBody());
-        assertEquals(HttpStatus.UNAUTHORIZED, result.getStatusCode());
-    }
 }

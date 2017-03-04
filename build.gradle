@@ -24,6 +24,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
 	compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.2.1.RELEASE'
 
+	// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
+
+	// https://mvnrepository.com/artifact/javax.servlet/servlet-api
+	compile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+
 	// https://mvnrepository.com/artifact/org.springframework/spring-orm
 	compile group: 'org.springframework', name: 'spring-orm', version: '4.3.6.RELEASE'
 

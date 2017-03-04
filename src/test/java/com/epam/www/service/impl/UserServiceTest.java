@@ -13,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 
 /**
@@ -28,7 +29,7 @@ public class UserServiceTest {
     private UserDao userDao;
 
     @InjectMocks
-    private UserService userService = new UserService();
+    private UserServiceImpl userService = new UserServiceImpl();
 
     @Before
     public void setup(){
@@ -49,8 +50,8 @@ public class UserServiceTest {
 
     @Test
     public void whenUserDeletedThenDaoMethodCalled(){
-        userService.deleteUser(anyString());
-        Mockito.verify(userDao, Mockito.times(1)).deleteUser(anyString());
+        userService.deleteUser(anyInt());
+        Mockito.verify(userDao, Mockito.times(1)).deleteUser(anyInt());
     }
 
     @Test
@@ -61,8 +62,8 @@ public class UserServiceTest {
 
     @Test
     public void whenUserReadThenUserDTOReturned(){
-        Mockito.when(userDao.getUserByEmail(anyString())).thenReturn(user);
-        UserDTO result = userService.getUserByEmail(anyString());
+        Mockito.when(userDao.getUserById(anyInt())).thenReturn(user);
+        UserDTO result = userService.getUserById(anyInt());
         assertEquals("Magnolia",result.getFirstName());
         assertEquals("Rajongo",result.getLastName());
         assertEquals("1234",result.getPassword());

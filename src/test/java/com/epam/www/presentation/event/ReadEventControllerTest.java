@@ -1,7 +1,7 @@
 package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.service.IEventService;
+import com.epam.www.service.EventService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,10 +22,13 @@ import static org.mockito.Matchers.anyInt;
 @RunWith(MockitoJUnitRunner.class)
 public class ReadEventControllerTest {
 
+    private static final int GOOD_ID = 2;
+    private static final int BAD_ID = 0;
+
     private EventDTO eventDTO;
 
     @Mock
-    private IEventService eventService;
+    private EventService eventService;
 
     @InjectMocks
     private ReadEventController readEventController = new ReadEventController();
@@ -46,22 +49,20 @@ public class ReadEventControllerTest {
     @Test
     public void givenProperInputWhenEventRetrievedThenResponseCorrect(){
         Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
-        ResponseEntity<EventDTO> result = readEventController.getEvent(eventDTO);
+        ResponseEntity<EventDTO> result = readEventController.getEvent(GOOD_ID);
         assertEquals(eventDTO,result.getBody());
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
     public void givenProperInputWhenEventRetrievedThenServiceMethodCalled(){
-        Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
-        readEventController.getEvent(eventDTO);
+        readEventController.getEvent(GOOD_ID);
         Mockito.verify(eventService, Mockito.times(1)).readEventById(anyInt());
     }
 
     @Test
     public void givenInputWithZeroIdWhenEventRetrievedThenResponseIsBadRequest(){
-        eventDTO.setId(0);
-        ResponseEntity<EventDTO> result = readEventController.getEvent(eventDTO);
+        ResponseEntity<EventDTO> result = readEventController.getEvent(BAD_ID);
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
 }

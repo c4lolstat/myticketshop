@@ -9,11 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 public interface UserDao {
 
-    void updateUser(UserDTO user);
+    void updateUser(final UserDTO user);
 
-    User getUserByEmail(final String email);
+    User getUserById(final int id);
 
-    void createUser(UserDTO user);
+    void createUser(final UserDTO user);
 
-    void deleteUser(final String email);
+    void deleteUser(final int id);
+
+    User getUserByEmail(String email);
 }

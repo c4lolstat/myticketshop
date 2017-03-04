@@ -1,7 +1,9 @@
 package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.service.IEventService;
+import com.epam.www.service.EventService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,20 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by Farkas on 2017.02.28..
  */
 @RestController
-@RequestMapping(value = "/updateevent")
+@RequestMapping(value = "/event")
 public class UpdateEventController{
 
 //    {"title":"Dogma","startDate":"12345665","endDate":"14987456","hour":"4321","price":"1990","counter":"0","auditorium":"Universal"}
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateEventController.class);
+
     @Autowired
-    private IEventService eventService;
+    private EventService eventService;
 
     /**
      * updateEvent. Update event data from DB. Using userService.
      * @param eventDTO that hold the user email and password.
      * @return Event data in JSON format.
      * */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<EventDTO> updateEvent(@RequestBody EventDTO eventDTO){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if (eventDTO.getId() > 0){

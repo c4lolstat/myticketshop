@@ -1,8 +1,7 @@
 package com.epam.www.presentation.user;
 
 import com.epam.www.dto.UserDTO;
-import com.epam.www.presentation.user.UpdateUserController;
-import com.epam.www.service.IUserService;
+import com.epam.www.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +27,7 @@ public class UpdateUserControllerTest {
     private UserDTO userDTO;
 
     @Mock
-    private IUserService userService;
+    private UserService userService;
 
     @InjectMocks
     private UpdateUserController updateUserController = new UpdateUserController();

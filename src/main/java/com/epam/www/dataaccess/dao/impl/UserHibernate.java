@@ -5,6 +5,8 @@ import com.epam.www.dataaccess.dao.*;
 import com.epam.www.dataaccess.entity.User;
 import com.epam.www.dto.UserDTO;
 import org.hibernate.annotations.NamedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
@@ -18,6 +20,8 @@ import java.util.List;
 @Repository
 @Transactional
 public class UserHibernate implements UserDao {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserHibernate.class);
 
     private HibernateJPA hibernateJPA;
 
@@ -37,6 +41,13 @@ public class UserHibernate implements UserDao {
     public User getUserByEmail(String email) {
         String query = "FROM User u WHERE u.email=?1";
         List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, email).getResultList();
+        return userRecord.get(0);
+    }
+
+    @Override
+    public User getUserById(int id) {
+        String query = "FROM User u WHERE u.id=?1";
+        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, id).getResultList();
        return userRecord.get(0);
     }
 
@@ -48,8 +59,8 @@ public class UserHibernate implements UserDao {
     }
 
     @Override
-    public void deleteUser(String email) {
-        User user = this.getUserByEmail(email);
+    public void deleteUser(int id) {
+        User user = this.getUserById(id);
         this.hibernateJPA.getEntityManager().remove(user);
     }
 
@@ -62,10 +73,4 @@ public class UserHibernate implements UserDao {
         user.setAccount(userDTO.getAccount());
     }
 
-    @Override
-    public String toString() {
-        return "UserHibernate{" +
-                "hibernateJPA=" + hibernateJPA +
-                '}';
-    }
 }

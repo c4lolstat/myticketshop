@@ -1,7 +1,9 @@
 package com.epam.www.presentation.user;
 
 import com.epam.www.dto.UserDTO;
-import com.epam.www.service.IUserService;
+import com.epam.www.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
  * Map controller to /createuser.
  */
 @RestController
-@RequestMapping(value = "/createuser")
+@RequestMapping(value = "/user")
 public class CreateUserController {
 
     //{"firstName":"Magnolia","lastName":"Rajongo","email":"kevin.smith@gmail.com","password":"1234","account":"555","discount":"normal"}
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateUserController.class);
+
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     /**
      * createUser. Persist new user data into DB. Using userService.

@@ -2,37 +2,38 @@ package com.epam.www.presentation.user;
 
 import com.epam.www.dto.CredentialDTO;
 import com.epam.www.dto.UserDTO;
-import com.epam.www.service.IUserService;
+import com.epam.www.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Update user controller.
  * Map controller to /updateuser.
  */
 @RestController
-@RequestMapping(value = "/deleteuser")
+@RequestMapping(value = "/user/{id}")
 public class DeleteUserController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteUserController.class);
+
     @Autowired
-    private IUserService userService;
+    private UserService userService;
 
     /**
      * deleteUser. update existing user data in DB. Using userService.
-     * @param credentialDTO DTO that hold the user email and password.
+     * @param id of the user to delete.
      * @return JSON with HTTP status.
      * */
     @RequestMapping(method = RequestMethod.DELETE)
-    public ResponseEntity<UserDTO> deleteUser(@RequestBody CredentialDTO credentialDTO){
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable (name = "id",required = true) int id){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        if (!credentialDTO.getEmail().isEmpty() && !credentialDTO.getPassword().isEmpty()) {
+        if (id > 0) {
             httpStatus = HttpStatus.OK;
-            userService.deleteUser(credentialDTO.getEmail());
+            userService.deleteUser(id);
         }
         return new ResponseEntity<UserDTO>(httpStatus);
     }

@@ -1,11 +1,8 @@
 package com.epam.www.service.impl;
 
 import com.epam.www.dataaccess.dao.EventDao;
-import com.epam.www.dataaccess.dao.UserDao;
 import com.epam.www.dataaccess.entity.Event;
-import com.epam.www.dataaccess.entity.User;
 import com.epam.www.dto.EventDTO;
-import com.epam.www.dto.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +14,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 
 /**
  * Created by Farkas on 2017.02.28..
@@ -31,7 +27,7 @@ public class EventServiceTest {
     private EventDao eventDao;
 
     @InjectMocks
-    private EventService eventService = new EventService();
+    private EventServiceImpl eventService = new EventServiceImpl();
 
     @Before
     public void setup(){

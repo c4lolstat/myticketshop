@@ -1,7 +1,7 @@
 package com.epam.www.presentation.event;
 
 import com.epam.www.dto.EventDTO;
-import com.epam.www.service.IEventService;
+import com.epam.www.service.EventService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,44 +22,30 @@ import static org.mockito.Matchers.anyInt;
 @RunWith(MockitoJUnitRunner.class)
 public class DeleteEventControllerTest {
 
-
-    private EventDTO eventDTO;
+    private static final int GOOD_ID = 2;
+    private static final int BAD_ID = 0;
 
     @Mock
-    private IEventService eventService;
+    private EventService eventService;
 
     @InjectMocks
     private DeleteEventController deleteEventController = new DeleteEventController();
 
-    @Before
-    public void setup(){
-        eventDTO = new EventDTO();
-        eventDTO.setId(666);
-        eventDTO.setAuditorium("Universal");
-        eventDTO.setCounter(0);
-        eventDTO.setEndDate(555L);
-        eventDTO.setHour(10L);
-        eventDTO.setPrice(24L);
-        eventDTO.setStartDate(222L);
-        eventDTO.setTitle("Jay and Silent Bob strike back");
-    }
-
     @Test
     public void givenProperInputWhenEventDeletedThenResponseCorrect(){
-        ResponseEntity<EventDTO> result = deleteEventController.deleteEvent(eventDTO);
+        ResponseEntity<EventDTO> result = deleteEventController.deleteEvent(GOOD_ID);
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
     public void givenProperInputWhenEventDeletedThenServiceMethodCalled(){
-        deleteEventController.deleteEvent(eventDTO);
+        deleteEventController.deleteEvent(GOOD_ID);
         Mockito.verify(eventService, Mockito.times(1)).deleteEvent(anyInt());
     }
 
     @Test
     public void givenInputWithZeroIdWhenEventRetrievedThenResponseIsBadRequest(){
-        eventDTO.setId(0);
-        ResponseEntity<EventDTO> result = deleteEventController.deleteEvent(eventDTO);
+        ResponseEntity<EventDTO> result = deleteEventController.deleteEvent(BAD_ID);
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
 }
