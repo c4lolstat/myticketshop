@@ -13,12 +13,14 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
  * Created by Farkas on 2017.03.04..
  */
+@Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationProvider.class);

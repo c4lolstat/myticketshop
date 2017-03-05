@@ -29,7 +29,7 @@ public class DeleteUserController {
      * @return JSON with HTTP status.
      * */
     @RequestMapping(method = RequestMethod.DELETE)
-    public ResponseEntity<UserDTO> deleteUser(@PathVariable (name = "id",required = true) int id){
+    public ResponseEntity<UserDTO> deleteUser(@PathVariable ("id") int id){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if (id > 0) {
             httpStatus = HttpStatus.OK;

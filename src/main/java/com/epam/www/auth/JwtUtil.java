@@ -7,11 +7,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 
 /**
  * Created by Farkas on 2017.03.04..
  */
+@Component
 public class JwtUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);

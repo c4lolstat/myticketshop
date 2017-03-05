@@ -31,7 +31,7 @@ public class ReadUserController {
      * @return User data in JSON format.
      * */
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<UserDTO> getUser(@PathVariable(name = "id",required = true)int id){
+    public ResponseEntity<UserDTO> getUser(@PathVariable("id")int id){
         UserDTO selectedUser = new UserDTO();
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if (id > 0) {

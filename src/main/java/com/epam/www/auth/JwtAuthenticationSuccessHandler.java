@@ -2,6 +2,7 @@ package com.epam.www.auth;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by Farkas on 2017.03.04..
  */
+@Component
 public class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override

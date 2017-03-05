@@ -27,7 +27,7 @@ public class ReadEventController {
      * @return Event data in JSON format.
      * */
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<EventDTO> getEvent(@PathVariable(name = "id",required = true) int id){
+    public ResponseEntity<EventDTO> getEvent(@PathVariable("id") int id){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         EventDTO result = new EventDTO();
         if (id > 0){

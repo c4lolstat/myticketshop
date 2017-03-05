@@ -27,7 +27,7 @@ public class DeleteEventController {
      * @return http status in JSON format.
      * */
     @RequestMapping(method = RequestMethod.DELETE)
-    public ResponseEntity<EventDTO> deleteEvent(@PathVariable(name = "id", required = true) int id){
+    public ResponseEntity<EventDTO> deleteEvent(@PathVariable("id") int id){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if (id > 0){
             httpStatus = HttpStatus.OK;
