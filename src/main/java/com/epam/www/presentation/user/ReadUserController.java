@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * Map controller to /getuser.
  */
 @RestController
-@RequestMapping(value = "/user/{id}")
+@RequestMapping(value = "/api/user/{id}")
 public class ReadUserController {
 
     //{"email":"kevin.smith@gmail.com","password":"1234"}

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/event")
+@RequestMapping(value = "/api/event")
 public class CreateEventController {
 //    {"title":"Jay and Silent Bob strike back","startDate":"12345665","endDate":"14987456","hour":"4321","price":"990","counter":"0","auditorium":"Universal"}
 

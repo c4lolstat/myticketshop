@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "api//user")
 public class UpdateUserController {
 
     //{"firstName":"Magnolia","lastName":"Rajongo","email":"kevin.smith@gmail.com","password":"4321","account":"333","discount":"bday"}

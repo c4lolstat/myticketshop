@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Map controller to /createuser.
  */
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/api/user")
 public class CreateUserController {
 
     //{"firstName":"Magnolia","lastName":"Rajongo","email":"kevin.smith@gmail.com","password":"1234","account":"555","discount":"normal"}
