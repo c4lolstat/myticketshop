@@ -23,7 +23,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    private JwtUtil jwtUtil = new JwtUtil();
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
     public void createUser(UserDTO userDTO) {
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
     public String authenticateUser(CredentialDTO credentialDTO) {
         String response = "";
         User user = userDao.getUserByEmail(credentialDTO.getEmail());
-        if (credentialDTO.getPassword().equals(user.getPassword())){
+        if (user != null && credentialDTO.getPassword().equals(user.getPassword())){
             UserDTO userDTO = new UserDTO(user);
             response = jwtUtil.generateToken(userDTO);
         }

@@ -1,7 +1,9 @@
 package com.epam.www.service.impl;
 
+import com.epam.www.auth.JwtUtil;
 import com.epam.www.dataaccess.dao.UserDao;
 import com.epam.www.dataaccess.entity.User;
+import com.epam.www.dto.CredentialDTO;
 import com.epam.www.dto.UserDTO;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,9 +26,13 @@ import static org.mockito.Matchers.anyString;
 public class UserServiceTest {
 
     private User user;
+    private CredentialDTO credentialDTO;
 
     @Mock
     private UserDao userDao;
+
+    @Mock
+    private JwtUtil jwtUtil;
 
     @InjectMocks
     private UserServiceImpl userService = new UserServiceImpl();
@@ -40,6 +46,10 @@ public class UserServiceTest {
         user.setPassword("1234");
         user.setAccount(555);
         user.setDiscount("normal");
+
+        credentialDTO = new CredentialDTO();
+        credentialDTO.setEmail("kevin.smith@gmail.com");
+        credentialDTO.setPassword("1234");
     }
 
     @Test
@@ -70,5 +80,28 @@ public class UserServiceTest {
         assertEquals("kevin.smith@gmail.com",result.getEmail());
         assertEquals(555,result.getAccount());
         assertEquals("normal",result.getDiscount());
+    }
+
+    @Test
+    public void givenValidCredentialWhenAuthenticateUserThenJwtTokenReturned(){
+        Mockito.when(userDao.getUserByEmail(anyString())).thenReturn(user);
+        Mockito.when(jwtUtil.generateToken(any(UserDTO.class))).thenReturn("testToken");
+        String result = userService.authenticateUser(credentialDTO);
+        assertEquals("testToken",result);
+    }
+
+    @Test
+    public void givenUserNotFoundWhenAuthenticateUserThenEmptyTokenReturned(){
+        Mockito.when(userDao.getUserByEmail(anyString())).thenReturn(null);
+        String result = userService.authenticateUser(credentialDTO);
+        assertEquals("",result);
+    }
+
+    @Test
+    public void givenCredentialWithWrongPSWWhenAuthenticateUserThenEmptyTokenReturned(){
+        credentialDTO.setPassword("4321");
+        Mockito.when(userDao.getUserByEmail(anyString())).thenReturn(user);
+        String result = userService.authenticateUser(credentialDTO);
+        assertEquals("",result);
     }
 }
