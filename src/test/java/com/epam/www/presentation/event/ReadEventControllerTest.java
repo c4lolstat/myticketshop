@@ -12,6 +12,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -22,8 +27,9 @@ import static org.mockito.Matchers.anyInt;
 @RunWith(MockitoJUnitRunner.class)
 public class ReadEventControllerTest {
 
-    private static final int GOOD_ID = 2;
-    private static final int BAD_ID = 0;
+    private  Map<String,String> params= new HashMap<>();
+
+    private List<EventDTO> evetsList;
 
     private EventDTO eventDTO;
 
@@ -44,25 +50,30 @@ public class ReadEventControllerTest {
         eventDTO.setPrice(24L);
         eventDTO.setStartDate(222L);
         eventDTO.setTitle("Jay and Silent Bob strike back");
+
+        evetsList = new ArrayList<>();
+        evetsList.add(eventDTO);
     }
 
     @Test
-    public void givenProperInputWhenEventRetrievedThenResponseCorrect(){
-        Mockito.when(eventService.readEventById(anyInt())).thenReturn(eventDTO);
-        ResponseEntity<EventDTO> result = readEventController.getEvent(GOOD_ID);
-        assertEquals(eventDTO,result.getBody());
+    public void givenProperInputWhenEventsRetrievedThenResponseCorrect(){
+        params.put("id", "1");
+        Mockito.when(eventService.readEventsWithParams(any(Map.class))).thenReturn(evetsList);
+        ResponseEntity<List<EventDTO>> result = readEventController.getEvents(params);
+        assertEquals(eventDTO,result.getBody().get(0));
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
-    public void givenProperInputWhenEventRetrievedThenServiceMethodCalled(){
-        readEventController.getEvent(GOOD_ID);
-        Mockito.verify(eventService, Mockito.times(1)).readEventById(anyInt());
+    public void givenProperInputWhenEventsRetrievedThenServiceMethodCalled(){
+        params.put("id", "1");
+        readEventController.getEvents(params);
+        Mockito.verify(eventService, Mockito.times(1)).readEventsWithParams(params);
     }
 
     @Test
-    public void givenInputWithZeroIdWhenEventRetrievedThenResponseIsBadRequest(){
-        ResponseEntity<EventDTO> result = readEventController.getEvent(BAD_ID);
+    public void givenInputWithZeroIdWhenEventsRetrievedThenResponseIsBadRequest(){
+        ResponseEntity<List<EventDTO>> result = readEventController.getEvents(params);
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
     }
 }

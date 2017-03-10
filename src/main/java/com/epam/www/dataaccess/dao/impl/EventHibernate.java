@@ -3,15 +3,15 @@ package com.epam.www.dataaccess.dao.impl;
 import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.EventDao;
 import com.epam.www.dataaccess.entity.Event;
-import com.epam.www.dataaccess.entity.User;
 import com.epam.www.dto.EventDTO;
-import com.epam.www.dto.UserDTO;
+import org.h2.command.dml.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Farkas on 2017.02.23..
@@ -49,19 +49,32 @@ public class EventHibernate implements EventDao {
     }
 
     @Override
-    public Event readEventById(int id) {
+    public List<Event> readEventsWithParams(Map<String, String> params) {
+      Query query = buildQueryFromParamList(params);
+      List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query).getResultList();
+      return eventRecord;
+    }
+
+    private Event readEventById(int id) {
         String query = "FROM Event e WHERE e.id=?1";
         List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query, Event.class).setParameter(1, id).getResultList();
         return eventRecord.get(0);
     }
 
-    private void update(Event event, EventDTO eventDTO){
-        event.setAuditorium(eventDTO.getAuditorium());
-        event.setCounter(eventDTO.getCounter());
-        event.setEndDate(eventDTO.getEndDate());
-        event.setHour(eventDTO.getHour());
-        event.setPrice(eventDTO.getPrice());
-        event.setStartDate(eventDTO.getStartDate());
-        event.setTitle(eventDTO.getTitle());
+    private Query buildQueryFromParamList(Map<String,String> params){
+      Query query = null;
+      return query;
+
     }
+
+
+    private void update(Event event, EventDTO eventDTO){
+          event.setAuditorium(eventDTO.getAuditorium());
+          event.setCounter(eventDTO.getCounter());
+          event.setEndDate(eventDTO.getEndDate());
+          event.setHour(eventDTO.getHour());
+          event.setPrice(eventDTO.getPrice());
+          event.setStartDate(eventDTO.getStartDate());
+          event.setTitle(eventDTO.getTitle());
+      }
 }

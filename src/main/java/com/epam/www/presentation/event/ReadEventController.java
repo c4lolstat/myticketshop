@@ -9,11 +9,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Farkas on 2017.02.27..
  */
 @RestController
-@RequestMapping(value = "/api/event/{id}")
+@RequestMapping(value = "/api/event")
 public class ReadEventController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReadEventController.class);
@@ -22,18 +26,18 @@ public class ReadEventController {
     private EventService eventService;
 
     /**
-     * getEvent. Select user data from DB. Using eventService.
-     * @param id that hold the id of the event.
+     * getEvents. Select user data from DB. Using eventService.
+     * @param params that hold the id of the event.
      * @return Event data in JSON format.
      * */
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<EventDTO> getEvent(@PathVariable("id") int id){
+    public ResponseEntity<List<EventDTO>> getEvents(@RequestParam Map<String, String> params){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        EventDTO result = new EventDTO();
-        if (id > 0){
+        List<EventDTO> result = new ArrayList<>();
+        if (!params.isEmpty()){
             httpStatus = HttpStatus.OK;
-            result = eventService.readEventById(id);
+            result = eventService.readEventsWithParams(params);
         }
-        return new ResponseEntity<EventDTO>(result, httpStatus);
+        return new ResponseEntity<List<EventDTO>>(result, httpStatus);
     }
 }
