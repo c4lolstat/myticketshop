@@ -11,13 +11,15 @@
     <global-method-security pre-post-annotations="enabled" />
     <!--<security:http auto-config="true" use-expressions="true" />-->
 
-    <http pattern="/login" security="none"/>
-    <!--<http pattern="/api/signup" security="none"/>-->
-
-    <http pattern="/**" entry-point-ref="restAuthenticationEntryPoint" create-session="stateless" >
+    <!-- Stateless RESTful service using Basic authentication -->
+    <http pattern="/api/**" entry-point-ref="restAuthenticationEntryPoint" create-session="stateless">
         <csrf disabled="true" />
         <custom-filter before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter"/>
+        <!--<http-basic />-->
     </http>
+
+    <!-- Empty filter chain for the login page -->
+    <!--<http pattern="/login" security="none"/>-->
 
     <beans:bean id="jwtAuthenticationFilter" class="com.epam.www.auth.JwtAuthenticationFilter">
         <beans:property name="authenticationManager" ref="authenticationManager" />

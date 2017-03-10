@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by Farkas on 2017.02.28..
  */
 @RestController
-@RequestMapping(value = "/event/{id}")
+@RequestMapping(value = "/api/event/{id}")
 public class DeleteEventController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteEventController.class);

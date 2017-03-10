@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * Map controller to /updateuser.
  */
 @RestController
-@RequestMapping(value = "/user/{id}")
+@RequestMapping(value = "/api/user/{id}")
 public class DeleteUserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteUserController.class);
