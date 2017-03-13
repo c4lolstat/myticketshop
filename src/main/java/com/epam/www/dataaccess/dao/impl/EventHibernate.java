@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Farkas on 2017.02.23..
@@ -21,6 +22,8 @@ import java.util.Map;
 public class EventHibernate implements EventDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHibernate.class);
+
+    private final String BASE_QUERY = "FROM Event WHERE";
 
     private HibernateJPA hibernateJPA;
 
@@ -50,8 +53,8 @@ public class EventHibernate implements EventDao {
 
     @Override
     public List<Event> readEventsWithParams(Map<String, String> params) {
-      Query query = buildQueryFromParamList(params);
-      List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query).getResultList();
+      String query = buildQueryFromParamList(params);
+      List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query,Event.class).getResultList();
       return eventRecord;
     }
 
@@ -61,9 +64,21 @@ public class EventHibernate implements EventDao {
         return eventRecord.get(0);
     }
 
-    private Query buildQueryFromParamList(Map<String,String> params){
-      Query query = null;
-      return query;
+    String buildQueryFromParamList(Map<String,String> params){
+        StringBuilder builder = new StringBuilder(BASE_QUERY);
+        Set<String> keys = params.keySet();
+            if (keys.contains("id")){
+                builder.append(" id=");
+                builder.append(params.get("id"));
+            }
+            if (keys.contains("startDate") && keys.contains("endDate")){
+                builder.append(" startDate>=");
+                builder.append(params.get("startDate"));
+                builder.append(" AND");
+                builder.append(" endDate<=");
+                builder.append(params.get("endDate"));
+            }
+        return builder.toString();
 
     }
 

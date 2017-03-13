@@ -1,4 +1,10 @@
-export GRADLE_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,address=9999,server=y,suspend=n"
+set GRADLE_OPTS="-XX:MaxPermSize=256M -Xdebug -Xrunjdwp:transport=dt_socket,address=9999,server=y,suspend=n"
 gradle jettyRun
+
+
+gradlew -Dorg.gradle.debug=true jettyRun
+then
+open debug connection
+
 
 insert into User values(1,555,'normal','kevin.smith@gmail.com','dsfdsf','dsfsd','1234')
