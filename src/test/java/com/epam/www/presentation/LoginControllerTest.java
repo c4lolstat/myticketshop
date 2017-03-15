@@ -43,7 +43,7 @@ public class LoginControllerTest {
         ResponseEntity<String> result = loginController.login(credentialDTO);
         String resultHeaderAuthorization = result.getHeaders().get("Authorization").get(0);
         assertEquals("login attempt",result.getBody());
-        assertEquals("jwttoken",resultHeaderAuthorization);
+        assertEquals("jwt jwttoken",resultHeaderAuthorization);
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 

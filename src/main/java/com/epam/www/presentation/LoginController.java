@@ -37,7 +37,7 @@ public class LoginController {
         if (!credentialDTO.getEmail().isEmpty() && !credentialDTO.getPassword().isEmpty()){
             httpStatus = HttpStatus.OK;
             String autToken = userService.authenticateUser(credentialDTO);
-            headers.set("Authorization", autToken);
+            headers.set("Authorization", "jwt " + autToken);
         }
         return new ResponseEntity<String>("login attempt",headers, httpStatus);
     }

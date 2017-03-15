@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -32,12 +33,8 @@ public class ReadEventController {
      * */
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<EventDTO>> getEvents(@RequestParam Map<String, String> params){
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
-        List<EventDTO> result = new ArrayList<>();
-        if (!params.isEmpty()){
-            httpStatus = HttpStatus.OK;
-            result = eventService.readEventsWithParams(params);
-        }
-        return new ResponseEntity<List<EventDTO>>(result, httpStatus);
+        List<EventDTO> result = Collections.emptyList();
+        result = eventService.readEventsWithParams(params);
+        return new ResponseEntity<List<EventDTO>>(result, HttpStatus.OK);
     }
 }

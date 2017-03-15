@@ -34,10 +34,8 @@ public class UpdateEventControllerTest{
         eventDTO.setId(666);
         eventDTO.setAuditorium("Universal");
         eventDTO.setCounter(0);
-        eventDTO.setEndDate(555L);
-        eventDTO.setHour(10L);
         eventDTO.setPrice(24L);
-        eventDTO.setStartDate(222L);
+        eventDTO.setAirDate(222L);
         eventDTO.setTitle("Jay and Silent Bob strike back");
     }
 

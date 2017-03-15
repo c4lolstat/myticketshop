@@ -40,10 +40,8 @@ public class EventServiceTest {
         event.setId(666);
         event.setAuditorium("Universal");
         event.setCounter(0);
-        event.setEndDate(555L);
-        event.setHour(10L);
         event.setPrice(24L);
-        event.setStartDate(222L);
+        event.setAirDate(222L);
         event.setTitle("Jay and Silent Bob strike back");
     }
 
@@ -74,10 +72,8 @@ public class EventServiceTest {
         assertEquals(666, result.get(0).getId());
         assertEquals("Universal",result.get(0).getAuditorium());
         assertEquals(0,result.get(0).getCounter());
-        assertEquals(555,result.get(0).getEndDate());
-        assertEquals(10, result.get(0).getHour());
         assertEquals(24,result.get(0).getPrice());
-        assertEquals(222, result.get(0).getStartDate());
+        assertEquals(222, result.get(0).getAirDate());
         assertEquals("Jay and Silent Bob strike back",result.get(0).getTitle());
     }
 }

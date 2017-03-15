@@ -45,10 +45,8 @@ public class ReadEventControllerTest {
         eventDTO.setId(666);
         eventDTO.setAuditorium("Universal");
         eventDTO.setCounter(0);
-        eventDTO.setEndDate(555L);
-        eventDTO.setHour(10L);
         eventDTO.setPrice(24L);
-        eventDTO.setStartDate(222L);
+        eventDTO.setAirDate(222L);
         eventDTO.setTitle("Jay and Silent Bob strike back");
 
         evetsList = new ArrayList<>();
@@ -72,8 +70,16 @@ public class ReadEventControllerTest {
     }
 
     @Test
-    public void givenInputWithZeroIdWhenEventsRetrievedThenResponseIsBadRequest(){
+    public void givenInputWithZeroParamWhenEventsRetrievedThenAllEventsReturned(){
+        Mockito.when(eventService.readEventsWithParams(any(Map.class))).thenReturn(evetsList);
         ResponseEntity<List<EventDTO>> result = readEventController.getEvents(params);
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+        assertEquals(eventDTO,result.getBody().get(0));
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    @Test
+    public void givenInputWithZeroParamWhenEventsRetrievedThenServiceMethodCalled(){
+        readEventController.getEvents(params);
+        Mockito.verify(eventService, Mockito.times(1)).readEventsWithParams(params);
     }
 }

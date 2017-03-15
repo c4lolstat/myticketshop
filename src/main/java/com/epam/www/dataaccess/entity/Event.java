@@ -18,9 +18,7 @@ public class Event{
 
     private String title = "";
     private long price;
-    private long startDate;
-    private long endDate;
-    private long hour;
+    private long airDate;
     private String auditorium = "";
     private long counter;
 
@@ -48,28 +46,12 @@ public class Event{
         this.price = price;
     }
 
-    public long getStartDate() {
-        return startDate;
+    public long getAirDate() {
+        return airDate;
     }
 
-    public void setStartDate(long startDate) {
-        this.startDate = startDate;
-    }
-
-    public long getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(long endDate) {
-        this.endDate = endDate;
-    }
-
-    public long getHour() {
-        return hour;
-    }
-
-    public void setHour(long hour) {
-        this.hour = hour;
+    public void setAirDate(long airDate) {
+        this.airDate = airDate;
     }
 
     public String getAuditorium() {

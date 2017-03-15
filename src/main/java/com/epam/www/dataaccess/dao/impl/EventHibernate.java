@@ -4,12 +4,17 @@ import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.EventDao;
 import com.epam.www.dataaccess.entity.Event;
 import com.epam.www.dto.EventDTO;
+import net.sf.cglib.core.Local;
 import org.h2.command.dml.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -67,18 +72,34 @@ public class EventHibernate implements EventDao {
     String buildQueryFromParamList(Map<String,String> params){
         StringBuilder builder = new StringBuilder(BASE_QUERY);
         Set<String> keys = params.keySet();
+        LocalDate today = LocalDate.now();
+        LocalDate fiveDaysFromNow = today.plusDays(5);
             if (keys.contains("id")){
                 builder.append(" id=");
                 builder.append(params.get("id"));
             }
-            if (keys.contains("startDate") && keys.contains("endDate")){
-                builder.append(" startDate>=");
-                builder.append(params.get("startDate"));
-                builder.append(" AND");
-                builder.append(" endDate<=");
-                builder.append(params.get("endDate"));
+            if(params.isEmpty()){
+                builder.append(" airDate BETWEEN ");
+                builder.append(today.atStartOfDay().toEpochSecond(ZoneOffset.UTC));
+                builder.append(" AND ");
+                builder.append(fiveDaysFromNow.atStartOfDay().toEpochSecond(ZoneOffset.UTC));
             }
-        return builder.toString();
+            if (keys.contains("title")) {
+                builder.append(" title='");
+                builder.append(params.get("title"));
+                builder.append("'");
+            }
+            if(keys.contains("date")){
+                Long epochTime = Long.parseLong(params.get("date"));
+                LocalDateTime date = LocalDateTime.ofEpochSecond(epochTime, 1000, ZoneOffset.UTC);
+                long startOfDayInSeconds = date.toLocalDate().atStartOfDay().toEpochSecond(ZoneOffset.UTC);
+                long endOfDayInSeconds = startOfDayInSeconds + 24*60*60;
+                builder.append(" airDate BETWEEN ");
+                builder.append(startOfDayInSeconds);
+                builder.append(" AND ");
+                builder.append(endOfDayInSeconds);
+            }
+            return builder.toString();
 
     }
 
@@ -86,10 +107,8 @@ public class EventHibernate implements EventDao {
     private void update(Event event, EventDTO eventDTO){
           event.setAuditorium(eventDTO.getAuditorium());
           event.setCounter(eventDTO.getCounter());
-          event.setEndDate(eventDTO.getEndDate());
-          event.setHour(eventDTO.getHour());
+          event.setAirDate(eventDTO.getAirDate());
           event.setPrice(eventDTO.getPrice());
-          event.setStartDate(eventDTO.getStartDate());
           event.setTitle(eventDTO.getTitle());
       }
 }
