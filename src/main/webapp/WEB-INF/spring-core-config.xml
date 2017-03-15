@@ -72,4 +72,12 @@
 		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
 	</bean>
 
+	<bean id="bookingHibernate" class="com.epam.www.dataaccess.dao.impl.BookingHibernate">
+		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
+	</bean>
+
+	<bean id="auditoriumHibernate" class="com.epam.www.dataaccess.dao.impl.AuditoriumHibernate">
+		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
+	</bean>
+
 </beans>
