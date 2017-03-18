@@ -1,7 +1,10 @@
 package com.epam.www.presentation;
 
+import com.epam.www.dataaccess.entity.Auditorium;
+import com.epam.www.dto.AuditoriumDTO;
 import com.epam.www.dto.EventDTO;
 import com.epam.www.dto.UserDTO;
+import com.epam.www.service.AuditoriumService;
 import com.epam.www.service.EventService;
 import com.epam.www.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +31,7 @@ public class PopulateController {
     private final ObjectMapper mapper = new ObjectMapper();
     private List<String> userList = new ArrayList<>();
     private List<String> eventList = new ArrayList<>();
+    private List<String> auditoriumList = new ArrayList<>();
 
     @Autowired
     private UserService userService;
@@ -35,11 +39,15 @@ public class PopulateController {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private AuditoriumService auditoriumService;
+
     @RequestMapping(method = RequestMethod.GET)
     public void populate(){
         init();
         addEvents();
         addUsers();
+        addAuditoriums();
     }
 
     private void init(){
@@ -52,6 +60,11 @@ public class PopulateController {
         userList.add("{\"firstName\":\"Silent\", \"lastName\":\"Bob\",\"password\":\"1111\",\"email\":\"silent.bob@gmail.com\",\"account\":555,\"discount\":\"normal\"}");
         userList.add("{\"firstName\":\"Holden\", \"lastName\":\"McNiel\",\"password\":\"1234\",\"email\":\"ben.affleck@gmail.com\",\"account\":555,\"discount\":\"normal\"}");
         userList.add("{\"firstName\":\"Dakon\", \"lastName\":\"Vago\",\"password\":\"1234\",\"email\":\"mark.hamill@gmail.com\",\"account\":555,\"discount\":\"normal\"}");
+
+        auditoriumList.add("{\"name\":\"Universal\",\"vipSeats\":\"15\",\"normalSeats\":\"50\"}");
+        auditoriumList.add("{\"name\":\"Illumination\",\"vipSeats\":\"0\",\"normalSeats\":\"10\"}");
+        auditoriumList.add("{\"name\":\"Disney\",\"vipSeats\":\"10\",\"normalSeats\":\"40\"}");
+        auditoriumList.add("{\"name\":\"Fox\",\"vipSeats\":\"5\",\"normalSeats\":\"20\"}");
     }
 
     private void addUsers(){
@@ -68,6 +81,16 @@ public class PopulateController {
         try {
             for (String event : eventList) {
                 eventService.createEvent(mapper.readValue(event, EventDTO.class));
+            }
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    private void addAuditoriums(){
+        try {
+            for (String auditorium : auditoriumList) {
+                auditoriumService.createAuditorium(mapper.readValue(auditorium, AuditoriumDTO.class));
             }
         } catch (IOException e) {
             LOGGER.error(e.getMessage());

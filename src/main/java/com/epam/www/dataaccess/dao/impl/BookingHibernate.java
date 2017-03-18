@@ -21,4 +21,15 @@ public class BookingHibernate implements BookingDao{
     public BookingHibernate(HibernateJPA hibernateJPA){
         this.hibernateJPA = hibernateJPA;
     }
+
+
+    @Override
+    public int countVipSeatsForEvent(int eventId) {
+        return 0;
+    }
+
+    @Override
+    public int countNormalSeatsForEvent(int eventId) {
+        return 0;
+    }
 }
