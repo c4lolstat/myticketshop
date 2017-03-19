@@ -4,6 +4,7 @@ import com.epam.www.dataaccess.dao.BookingDao;
 import com.epam.www.dataaccess.entity.Booking;
 import com.epam.www.dto.AuditoriumDTO;
 import com.epam.www.dto.AvailableSeatsDTO;
+import com.epam.www.dto.BookingInfoDTO;
 import com.epam.www.dto.EventDTO;
 import com.epam.www.service.AuditoriumService;
 import com.epam.www.service.BookingService;
@@ -68,22 +69,16 @@ public class BookingServiceTest {
         params = new HashMap<>();
         params.put("id","1");
     }
-//TODO rewritetests
-    //@Test
+
+    @Test
     public void givenEventIdWhenCallAvailableSeatsThenMapWithSeatCountsReturned(){
-//        Mockito.when(eventService.readEventsWithParams(any(Map.class))).thenReturn(eventsList);
-//        Mockito.when(auditoriumService.readAuditoriumByName(anyString())).thenReturn(auditoriumDTO);
-//        Mockito.when(bookingDao.countNormalSeatsForEvent(anyInt())).thenReturn(5);
-//        Mockito.when(bookingDao.countVipSeatsForEvent(anyInt())).thenReturn(2);
-//        AvailableSeatsDTO result = bookingService.getAvailableSeatNumbersForEvent(eventsList.get(0));
-//        assertEquals(5,result.getNormalSeats());
-//        assertEquals(3,result.getVipSeats());
+        Mockito.when(eventService.readEventsWithParams(any(Map.class))).thenReturn(eventsList);
+        Mockito.when(auditoriumService.readAuditoriumByName(anyString())).thenReturn(auditoriumDTO);
+        Mockito.when(bookingDao.countNormalSeatsForEvent(anyInt())).thenReturn(5);
+        Mockito.when(bookingDao.countVipSeatsForEvent(anyInt())).thenReturn(2);
+        BookingInfoDTO result = bookingService.getBookingInformation(params);
+        assertEquals(5,result.getAvailableSeatsDTO().getNormalSeats());
+        assertEquals(3,result.getAvailableSeatsDTO().getVipSeats());
     }
 
-    //@Test
-    public void givenZeroEventIdWhenCallAvailableSeatsThenEmptyMapReturned(){
-//        params.replace("id","0");
-//        AvailableSeatsDTO result = bookingService.getAvailableSeatNumbersForEvent(eventsList.get(0));
-//        assertTrue(result instanceof AvailableSeatsDTO);
-    }
 }

@@ -4,6 +4,7 @@ import com.epam.www.auth.model.JwtAuthenticationToken;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -21,6 +22,9 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     public JwtAuthenticationFilter() {
         super("/**");
     }
@@ -32,17 +36,8 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
-        String header = request.getHeader("Authorization");
-
-        if (header == null || !header.startsWith("jwt ")) {
-            throw new UnsupportedJwtException("No JWT token found in request headers");
-        }
-
-        String authToken = header.substring(3);
-
+        String authToken = jwtUtil.getTokenFromRequest(request);
         JwtAuthenticationToken authRequest = new JwtAuthenticationToken(authToken);
-
         return getAuthenticationManager().authenticate(authRequest);
     }
 

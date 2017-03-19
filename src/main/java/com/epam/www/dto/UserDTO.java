@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
  */
 public class UserDTO {
 
+    private int id;
     private String firstName = "";
     private String lastName = "";
     private String password = "";
@@ -20,6 +21,8 @@ public class UserDTO {
     public UserDTO(){}
 
     public UserDTO(User user){
+        this.id = user.getId();
+
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.password = user.getPassword();
@@ -28,6 +31,13 @@ public class UserDTO {
         this.discount = user.getDiscount();
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

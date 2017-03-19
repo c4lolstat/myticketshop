@@ -1,13 +1,12 @@
 package com.epam.www.auth;
 
 import com.epam.www.dto.UserDTO;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -37,7 +36,7 @@ public class JwtUtil {
                     .getBody();
 
             userDTO.setEmail(body.getSubject());
-//            userDTO.setId(Long.parseLong((String) body.get("userId")));
+            userDTO.setId(Integer.parseInt((String) body.get("userId")));
 //            userDTO.setRole((String) body.get("role"));
 
         } catch (JwtException | ClassCastException e) {
@@ -55,12 +54,21 @@ public class JwtUtil {
      */
     public String generateToken(UserDTO userDTO) {
         Claims claims = Jwts.claims().setSubject(userDTO.getEmail());
-//        claims.put("userId", u.getId() + "");
+        claims.put("userId", userDTO.getId() + "");
 //        claims.put("role", u.getRole());
 
         return Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
+    }
+
+    public String getTokenFromRequest(HttpServletRequest request) {
+        String header = request.getHeader("Authorization");
+
+        if (header == null || !header.startsWith("jwt ")) {
+            throw new UnsupportedJwtException("No JWT token found in request headers");
+        }
+        return header.substring(3);
     }
 }
