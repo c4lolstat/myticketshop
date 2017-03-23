@@ -17,7 +17,7 @@ public class JwtUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtUtil.class);
 
-    private String secret = "   S0M3S3CR3T";
+    private String secret = "S0M3S3CR3T";
 
     /**
      * Tries to parse specified String as a JWT token. If successful, returns User object with username, id and role prefilled (extracted from token).
@@ -63,12 +63,12 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String getTokenFromRequest(HttpServletRequest request) {
+    public String getTokenFromRequest(HttpServletRequest request) throws UnsupportedJwtException {
         String header = request.getHeader("Authorization");
 
-        if (header == null || !header.startsWith("jwt ")) {
+        if (header == null || !header.startsWith("jwt")) {
             throw new UnsupportedJwtException("No JWT token found in request headers");
         }
-        return header.substring(3);
+        return header.split(" ")[1];
     }
 }

@@ -4,6 +4,7 @@ import com.epam.www.auth.model.JwtAuthenticationToken;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -31,6 +32,10 @@ public class JwtAuthenticationFilterTest {
   @Mock
   private AuthenticationManager authenticationManager;
 
+  @Mock
+  private JwtUtil jwtUtil;
+
+  @InjectMocks
   public JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
 
   @Test
@@ -41,21 +46,16 @@ public class JwtAuthenticationFilterTest {
 
   @Test
   public void  givenRequestWithAuthHeaderWhenAttemptAuthenticationThenAuthenticateMethodCalled(){
-    Mockito.when(httpServletRequest.getHeader("Authorization")).thenReturn("jwt somejwttocken");
-    jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
+    Mockito.when(jwtUtil.getTokenFromRequest(any(HttpServletRequest.class))).thenReturn("jwt somejwttocken");
     jwtAuthenticationFilter.attemptAuthentication(httpServletRequest, httpServletResponse);
     Mockito.verify(authenticationManager).authenticate(any(JwtAuthenticationToken.class));
   }
 
   @Test (expected = UnsupportedJwtException.class)
-  public void givenRequestWithNullAuthHeaderWhenAttemptAuthenticateThenExceptionThown(){
-    Mockito.when(httpServletRequest.getHeader("Authorization")).thenReturn(null);
+  public void givenRequestWithWrongAuthHeaderWhenAttemptAuthenticateThenExceptionThown(){
+    Mockito.when(jwtUtil.getTokenFromRequest(any(HttpServletRequest.class))).thenThrow(UnsupportedJwtException.class);
     jwtAuthenticationFilter.attemptAuthentication(httpServletRequest, httpServletResponse);
   }
 
-  @Test (expected = UnsupportedJwtException.class)
-  public void givenRequestWithMalformedAuthHeaderWhenAttemptAuthenticateThenExceptionThown(){
-    Mockito.when(httpServletRequest.getHeader("Authorization")).thenReturn("Bearer sometocken");
-    jwtAuthenticationFilter.attemptAuthentication(httpServletRequest, httpServletResponse);
-  }
+
 }

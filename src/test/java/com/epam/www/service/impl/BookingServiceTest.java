@@ -1,6 +1,7 @@
 package com.epam.www.service.impl;
 
 import com.epam.www.dataaccess.dao.BookingDao;
+import com.epam.www.dataaccess.dao.HibernateDaoFacade;
 import com.epam.www.dataaccess.entity.Booking;
 import com.epam.www.dto.AuditoriumDTO;
 import com.epam.www.dto.AvailableSeatsDTO;
@@ -37,7 +38,7 @@ public class BookingServiceTest {
     public static final String TEST_AUDITORIUM_NAME = "testAuditorium";
 
     private Booking booking;
-    private List<EventDTO> eventsList;
+    private EventDTO event;
     private AuditoriumDTO auditoriumDTO;
     private Map<String, String> params;
 
@@ -45,21 +46,16 @@ public class BookingServiceTest {
     private BookingDao bookingDao;
 
     @Mock
-    private EventService eventService;
-
-    @Mock
-    private AuditoriumService auditoriumService;
+    private HibernateDaoFacade hibernateDaoFacade;
 
     @InjectMocks
     private BookingService bookingService = new BookingServiceImpl();
 
     @Before
     public void setup(){
-        eventsList = new ArrayList<>();
-        EventDTO event = new EventDTO();
+        event = new EventDTO();
         event.setId(1);
         event.setAuditorium(TEST_AUDITORIUM_NAME);
-        eventsList.add(event);
 
         auditoriumDTO = new AuditoriumDTO();
         auditoriumDTO.setName(TEST_AUDITORIUM_NAME);
@@ -72,13 +68,12 @@ public class BookingServiceTest {
 
     @Test
     public void givenEventIdWhenCallAvailableSeatsThenMapWithSeatCountsReturned(){
-        Mockito.when(eventService.readEventsWithParams(any(Map.class))).thenReturn(eventsList);
-        Mockito.when(auditoriumService.readAuditoriumByName(anyString())).thenReturn(auditoriumDTO);
+        Mockito.when(hibernateDaoFacade.readEventsWithParams(any(Map.class))).thenReturn(event);
+        Mockito.when(hibernateDaoFacade.readAuditoriumByName(anyString())).thenReturn(auditoriumDTO);
         Mockito.when(bookingDao.countNormalSeatsForEvent(anyInt())).thenReturn(5);
         Mockito.when(bookingDao.countVipSeatsForEvent(anyInt())).thenReturn(2);
         BookingInfoDTO result = bookingService.getBookingInformation(params);
         assertEquals(5,result.getAvailableSeatsDTO().getNormalSeats());
         assertEquals(3,result.getAvailableSeatsDTO().getVipSeats());
     }
-
 }
