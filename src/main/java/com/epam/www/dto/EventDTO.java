@@ -2,7 +2,10 @@ package com.epam.www.dto;
 
 import com.epam.www.dataaccess.entity.Event;
 import com.sun.media.sound.AiffFileReader;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -12,9 +15,13 @@ import java.time.LocalTime;
 public class EventDTO {
 
     private int id;
+    @NotEmpty(message = "Title must not be empty!")
     private String title = "";
+    @Min(value = 0, message = "Price cannot be negative!")
     private long price;
+    @Digits(integer = 10, fraction = 0 ,message = "Must be epoch time representation!")
     private long airDate;
+    @NotEmpty(message = "Auditorium must not be empty!")
     private String auditorium = "";
     private long counter;
 

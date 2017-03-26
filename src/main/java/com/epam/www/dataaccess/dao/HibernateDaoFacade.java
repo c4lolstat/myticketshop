@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public interface HibernateDaoFacade {
 
-    EventDTO readEventsWithParams(Map<String, String> params);
+    EventDTO readEventsWithParams(int params);
 
     UserDTO getUserById(int id);
 

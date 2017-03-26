@@ -1,5 +1,8 @@
 package com.epam.www.dto;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.validation.constraints.Size;
 
 /**
@@ -8,9 +11,9 @@ import javax.validation.constraints.Size;
  */
 public class CredentialDTO {
 
-    @Size(min = 1, message = "may not be empty")
+    @Email(message = "Email must be valid!")
     private String email = "";
-    @Size(min = 1, message = "may not be empty")
+    @NotEmpty(message = "Password must not be empty!")
     private String password = "";
 
 

@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * Created by Farkas on 2017.03.03..
  */
 @RestController
 @RequestMapping(value = "/login")
-public class LoginController {
+public class LoginController extends BaseController{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
@@ -31,7 +33,7 @@ public class LoginController {
      * @return HTTP status with autentication stuff.
      * */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestBody CredentialDTO credentialDTO){
+    public ResponseEntity<String> login(@Valid @RequestBody CredentialDTO credentialDTO){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         HttpHeaders headers = new HttpHeaders();
         if (!credentialDTO.getEmail().isEmpty() && !credentialDTO.getPassword().isEmpty()){

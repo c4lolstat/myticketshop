@@ -1,14 +1,13 @@
 package com.epam.www.presentation.booking;
 
+import com.epam.www.dto.InitBookingDTO;
+import com.epam.www.presentation.BaseController;
 import com.epam.www.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -18,15 +17,14 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/api/booking")
-public class CreateBookingController {
+public class CreateBookingController extends BaseController{
 
     @Autowired
     private BookingService bookingService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity bookTicket(@RequestParam Map<String, String> params, HttpServletRequest request){
-        //TODO check params are valid
-        bookingService.bookTicket(params,request);
+    public ResponseEntity bookTicket(@RequestBody InitBookingDTO initBookingDTO, HttpServletRequest request){
+        bookingService.bookTicket(initBookingDTO,request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

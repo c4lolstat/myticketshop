@@ -56,18 +56,4 @@ public class CreateUserControllerTest {
         addUserController.createUser(userDTO);
         Mockito.verify(userService, Mockito.times(1)).createUser(any(UserDTO.class));
     }
-
-    @Test
-    public void givenEmptyEmailWhenUserCreatedThenResponseIsBadRequest(){
-        userDTO.setEmail("");
-        ResponseEntity<UserDTO> result = addUserController.createUser(userDTO);
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
-    @Test
-    public void givenEmptyPasswordWhenUserCreatedThenResponseIsBadRequest(){
-        userDTO.setPassword("");
-        ResponseEntity<UserDTO> result = addUserController.createUser(userDTO);
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
 }

@@ -13,7 +13,7 @@ import com.epam.www.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,7 +33,9 @@ public class HibernateDaoFacadeImpl implements HibernateDaoFacade {
 
 
     @Override
-    public EventDTO readEventsWithParams(Map<String, String> params) {
+    public EventDTO readEventsWithParams(int id) {
+        Map<String,String> params = new HashMap<>();
+        params.put("id",Integer.valueOf(id).toString());
         Event event = this.eventDao.readEventsWithParams(params).get(0);
        return new EventDTO(event);
     }

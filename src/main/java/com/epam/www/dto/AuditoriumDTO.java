@@ -1,6 +1,9 @@
 package com.epam.www.dto;
 
 import com.epam.www.dataaccess.entity.Auditorium;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
 
 /**
  * Created by Farkas on 2017.03.15..
@@ -9,8 +12,11 @@ public class AuditoriumDTO {
 
     private int id;
 
+    @NotEmpty(message = "Auditorium name must not be empty!")
     private String name = "";
+    @Min(value = 0, message = "Vip seats cannot be negative!")
     private int vipSeats;
+    @Min(value = 0, message = "Normal seats cannot be negative!")
     private int normalSeats;
 
     public AuditoriumDTO(){}

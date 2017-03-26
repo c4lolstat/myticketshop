@@ -3,10 +3,7 @@ package com.epam.www.service.impl;
 import com.epam.www.dataaccess.dao.BookingDao;
 import com.epam.www.dataaccess.dao.HibernateDaoFacade;
 import com.epam.www.dataaccess.entity.Booking;
-import com.epam.www.dto.AuditoriumDTO;
-import com.epam.www.dto.AvailableSeatsDTO;
-import com.epam.www.dto.BookingInfoDTO;
-import com.epam.www.dto.EventDTO;
+import com.epam.www.dto.*;
 import com.epam.www.service.AuditoriumService;
 import com.epam.www.service.BookingService;
 import com.epam.www.service.EventService;
@@ -37,10 +34,8 @@ public class BookingServiceTest {
 
     public static final String TEST_AUDITORIUM_NAME = "testAuditorium";
 
-    private Booking booking;
     private EventDTO event;
     private AuditoriumDTO auditoriumDTO;
-    private Map<String, String> params;
 
     @Mock
     private BookingDao bookingDao;
@@ -61,18 +56,15 @@ public class BookingServiceTest {
         auditoriumDTO.setName(TEST_AUDITORIUM_NAME);
         auditoriumDTO.setNormalSeats(10);
         auditoriumDTO.setVipSeats(5);
-
-        params = new HashMap<>();
-        params.put("id","1");
     }
 
     @Test
     public void givenEventIdWhenCallAvailableSeatsThenMapWithSeatCountsReturned(){
-        Mockito.when(hibernateDaoFacade.readEventsWithParams(any(Map.class))).thenReturn(event);
+        Mockito.when(hibernateDaoFacade.readEventsWithParams(anyInt())).thenReturn(event);
         Mockito.when(hibernateDaoFacade.readAuditoriumByName(anyString())).thenReturn(auditoriumDTO);
         Mockito.when(bookingDao.countNormalSeatsForEvent(anyInt())).thenReturn(5);
         Mockito.when(bookingDao.countVipSeatsForEvent(anyInt())).thenReturn(2);
-        BookingInfoDTO result = bookingService.getBookingInformation(params);
+        BookingInfoDTO result = bookingService.getBookingInformation(anyInt());
         assertEquals(5,result.getAvailableSeatsDTO().getNormalSeats());
         assertEquals(3,result.getAvailableSeatsDTO().getVipSeats());
     }

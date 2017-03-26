@@ -1,6 +1,7 @@
 package com.epam.www.presentation.user;
 
 import com.epam.www.dto.UserDTO;
+import com.epam.www.presentation.BaseController;
 import com.epam.www.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * Update user controller.
  * Map controller to /updateuser.
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "api//user")
-public class UpdateUserController {
+public class UpdateUserController extends BaseController {
 
     //{"firstName":"Magnolia","lastName":"Rajongo","email":"kevin.smith@gmail.com","password":"4321","account":"333","discount":"bday"}
 
@@ -34,7 +37,7 @@ public class UpdateUserController {
      * @return JSON with HTTP status.
      * */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if (!userDTO.getEmail().isEmpty() && !userDTO.getPassword().isEmpty()) {
             httpStatus = HttpStatus.OK;

@@ -41,8 +41,8 @@ public class BookingServiceImpl implements BookingService {
     //TODO refactor this class when finished
 
     @Override
-    public BookingInfoDTO getBookingInformation(Map<String, String> params) {
-        EventDTO eventDTO = hibernateDaoFacade.readEventsWithParams(params);
+    public BookingInfoDTO getBookingInformation(int id) {
+        EventDTO eventDTO = hibernateDaoFacade.readEventsWithParams(id);
         AvailableSeatsDTO  availableSeatsDTO = this.getAvailableSeatNumbersForEvent(eventDTO);
         return new BookingInfoDTO(eventDTO, availableSeatsDTO);
     }
@@ -54,33 +54,33 @@ public class BookingServiceImpl implements BookingService {
     * normalseats
     * vipseats
     * */
-    public void bookTicket(Map<String, String> params, HttpServletRequest request) {
+    public void bookTicket(InitBookingDTO params, HttpServletRequest request) {
         initialize(params);
         if (checkSeatsAreAvailableForEvent()) {
-            fulfillBooking(params, request);
+            fulfillBooking(request);
         }
     }
 
-    private void initialize(Map<String, String> params) {
-        vipSeats = Integer.parseInt(params.get("vipSeats"));
-        normalSeats = Integer.parseInt(params.get("normalSeats"));
-        eventDTO = hibernateDaoFacade.readEventsWithParams(params);
+    private void initialize(InitBookingDTO initBookingDTO) {
+        this.vipSeats = initBookingDTO.getVipSeats();
+        this.normalSeats = initBookingDTO.getNormalSeats();
+        this.eventDTO = hibernateDaoFacade.readEventsWithParams(initBookingDTO.getId());
     }
 
-    private void fulfillBooking(Map<String, String> params, HttpServletRequest request) {
+    private void fulfillBooking(HttpServletRequest request) {
         UserDTO userDTO = this.getUserInformationFromRequest(request);
         Price price = new Price.Calculator()
-                .withBasePrice(eventDTO.getPrice())
+                .withBasePrice(this.eventDTO.getPrice())
                 .withDiscount(userDTO.getDiscount())
-                .withNormalSeats(normalSeats)
-                .withVipSeats(vipSeats)
+                .withNormalSeats(this.normalSeats)
+                .withVipSeats(this.vipSeats)
                 .calculate();
         boolean payed = userDTO.getAccount() > price.getSumPrice();
         BookingDTO bookingDTO = new BookingDTO.BookingBuilder()
                 .withUser(userDTO.getId())
-                .withEvent(eventDTO.getId())
-                .withVipSeats(Integer.parseInt(params.get("vipSeats")))
-                .withNormalSeats(Integer.parseInt(params.get("normalSeats")))
+                .withEvent(this.eventDTO.getId())
+                .withVipSeats(this.vipSeats)
+                .withNormalSeats(this.normalSeats)
                 .withSumPrice(price.getSumPrice())
                 .withBooked(!payed)
                 .withPayed(payed)

@@ -1,16 +1,25 @@
 package com.epam.www.dto;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
+
 /**
  * Created by Farkas on 2017.03.15..
  */
 public class BookingDTO {
     private int id;
 
+    @NotEmpty(message = "Event must not be empty!")
     private int event;
+    @NotEmpty(message = "User must not be empty!")
     private int user;
+    @Min(value = 0, message = "Vip seats cannot be negative!")
     private int vipSeats;
+    @Min(value = 0, message = "Normal seats cannot be negative!")
     private int normalSeats;
     private String discount="";
+    @Min(value = 0, message = "Price cannot be negative!")
     private long sumPrice;
     private boolean booked;
     private boolean payed;

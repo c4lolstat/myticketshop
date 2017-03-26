@@ -1,7 +1,11 @@
 package com.epam.www.dto;
 
 import com.epam.www.dataaccess.entity.User;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -13,8 +17,11 @@ public class UserDTO {
     private int id;
     private String firstName = "";
     private String lastName = "";
+    @NotEmpty(message = "Password must not be empty!")
     private String password = "";
+    @Email(message = "Email must be valid!")
     private String email = "";
+    @Min(value = 0, message = "Account cannot be negative!")
     private long account;
     private String discount = "";
 
@@ -22,7 +29,6 @@ public class UserDTO {
 
     public UserDTO(User user){
         this.id = user.getId();
-
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.password = user.getPassword();
