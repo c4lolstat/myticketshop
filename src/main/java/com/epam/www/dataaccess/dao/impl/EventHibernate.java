@@ -69,6 +69,8 @@ public class EventHibernate implements EventDao {
         return eventRecord.get(0);
     }
 
+    //TODO convert it to builder pattern to move the ifs in methods.
+    //TODO make all changes in different branch
     String buildQueryFromParamList(Map<String,String> params){
         StringBuilder builder = new StringBuilder(BASE_QUERY);
         Set<String> keys = params.keySet();

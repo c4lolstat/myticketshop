@@ -21,6 +21,7 @@ public class Event{
     private long airDate;
     private String auditorium = "";
     private long counter;
+    //TODO create an active flag for soft delete and use it to query events. When delete modify this flag.
 
     public int getId() {
         return id;
