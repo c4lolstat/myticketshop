@@ -3,6 +3,7 @@ package com.epam.www.dataaccess.dao.impl;
 import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.EventDao;
 import com.epam.www.dataaccess.entity.Event;
+import com.epam.www.domain.QueryBuilder;
 import com.epam.www.dto.EventDTO;
 import net.sf.cglib.core.Local;
 import org.h2.command.dml.Query;
@@ -53,7 +54,8 @@ public class EventHibernate implements EventDao {
     @Override
     public void deleteEvent(int id) {
         Event event = this.readEventById(id);
-        this.hibernateJPA.getEntityManager().remove(event);
+        event.setActive(false);
+        this.hibernateJPA.getEntityManager().flush();
     }
 
     @Override
@@ -64,47 +66,38 @@ public class EventHibernate implements EventDao {
     }
 
     private Event readEventById(int id) {
-        String query = "FROM Event e WHERE e.id=?1";
+        String query = new QueryBuilder()
+                .withBaseString(BASE_QUERY)
+                .withId(Integer.valueOf(id).toString())
+                .build();
         List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query, Event.class).setParameter(1, id).getResultList();
         return eventRecord.get(0);
     }
 
-    //TODO convert it to builder pattern to move the ifs in methods.
-    //TODO make all changes in different branch
-    String buildQueryFromParamList(Map<String,String> params){
-        StringBuilder builder = new StringBuilder(BASE_QUERY);
+    private String buildQueryFromParamList(Map<String,String> params){
+        QueryBuilder queryBuilder = new QueryBuilder().withBaseString(BASE_QUERY);
         Set<String> keys = params.keySet();
-        LocalDate today = LocalDate.now();
-        LocalDate fiveDaysFromNow = today.plusDays(5);
+        long today = LocalDate.now().atStartOfDay().toEpochSecond(ZoneOffset.UTC);
+        long fiveDaysFromNow = LocalDate.now().plusDays(5).atStartOfDay().toEpochSecond(ZoneOffset.UTC);
             if (keys.contains("id")){
-                builder.append(" id=");
-                builder.append(params.get("id"));
+                queryBuilder.withId(params.get("id"));
             }
             if(params.isEmpty()){
-                builder.append(" airDate BETWEEN ");
-                builder.append(today.atStartOfDay().toEpochSecond(ZoneOffset.UTC));
-                builder.append(" AND ");
-                builder.append(fiveDaysFromNow.atStartOfDay().toEpochSecond(ZoneOffset.UTC));
+                queryBuilder.withDateRange(Long.valueOf(today).toString(), Long.valueOf(fiveDaysFromNow).toString());
             }
             if (keys.contains("title")) {
-                builder.append(" title='");
-                builder.append(params.get("title"));
-                builder.append("'");
-            }
-            if(keys.contains("date")){
-                Long epochTime = Long.parseLong(params.get("date"));
-                LocalDateTime date = LocalDateTime.ofEpochSecond(epochTime, 1000, ZoneOffset.UTC);
-                long startOfDayInSeconds = date.toLocalDate().atStartOfDay().toEpochSecond(ZoneOffset.UTC);
-                long endOfDayInSeconds = startOfDayInSeconds + 24*60*60;
-                builder.append(" airDate BETWEEN ");
-                builder.append(startOfDayInSeconds);
-                builder.append(" AND ");
-                builder.append(endOfDayInSeconds);
-            }
-            return builder.toString();
+                queryBuilder.withTitle(params.get("title"));
 
+            }
+            if(keys.contains("active")) {
+                queryBuilder.withActive(params.get("active"));
+
+            }
+            if(keys.contains("from") && keys.contains("to")){
+                queryBuilder.withDateRange(params.get("from"), params.get("to"));
+            }
+            return queryBuilder.build();
     }
-
 
     private void update(Event event, EventDTO eventDTO){
           event.setAuditorium(eventDTO.getAuditorium());
@@ -112,5 +105,6 @@ public class EventHibernate implements EventDao {
           event.setAirDate(eventDTO.getAirDate());
           event.setPrice(eventDTO.getPrice());
           event.setTitle(eventDTO.getTitle());
+          event.setActive(eventDTO.isActive());
       }
 }

@@ -4,11 +4,14 @@ import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.BookingDao;
 import com.epam.www.dataaccess.entity.Booking;
 import com.epam.www.dataaccess.entity.Event;
+import com.epam.www.domain.QueryBuilder;
 import com.epam.www.dto.BookingDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by Farkas on 2017.03.15..
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookingHibernate implements BookingDao{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookingHibernate.class);
+    private final String BASE_QUERY = "FROM Booking WHERE";
 
     private HibernateJPA hibernateJPA;
 
@@ -28,12 +32,20 @@ public class BookingHibernate implements BookingDao{
 
     @Override
     public int countVipSeatsForEvent(int eventId) {
-        return 0;
+        String query = new QueryBuilder()
+                .withBaseString("SUM (vipSeats) " + BASE_QUERY)
+                .withEventId(eventId)
+                .build();
+        return (int) this.hibernateJPA.getEntityManager().createQuery(query).getSingleResult();
     }
 
     @Override
     public int countNormalSeatsForEvent(int eventId) {
-        return 0;
+        String query = new QueryBuilder()
+                .withBaseString("SUM (normalSeats) " + BASE_QUERY)
+                .withEventId(eventId)
+                .build();
+        return (int) this.hibernateJPA.getEntityManager().createQuery(query).getSingleResult();
     }
 
     @Override

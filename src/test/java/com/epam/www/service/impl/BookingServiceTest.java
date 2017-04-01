@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,12 +37,16 @@ public class BookingServiceTest {
 
     private EventDTO event;
     private AuditoriumDTO auditoriumDTO;
+    private InitBookingDTO initBookingDTO;
 
     @Mock
     private BookingDao bookingDao;
 
     @Mock
     private HibernateDaoFacade hibernateDaoFacade;
+
+    @Mock
+    private HttpServletRequest httpServletRequest;
 
     @InjectMocks
     private BookingService bookingService = new BookingServiceImpl();
@@ -56,6 +61,11 @@ public class BookingServiceTest {
         auditoriumDTO.setName(TEST_AUDITORIUM_NAME);
         auditoriumDTO.setNormalSeats(10);
         auditoriumDTO.setVipSeats(5);
+
+        initBookingDTO = new InitBookingDTO();
+        initBookingDTO.setId(1);
+        initBookingDTO.setNormalSeats(5);
+        initBookingDTO.setVipSeats(2);
     }
 
     @Test

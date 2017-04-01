@@ -3,6 +3,7 @@ package com.epam.www.dataaccess.dao.impl;
 import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.*;
 import com.epam.www.dataaccess.entity.User;
+import com.epam.www.domain.QueryBuilder;
 import com.epam.www.dto.UserDTO;
 import org.hibernate.annotations.NamedQuery;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import java.util.List;
 public class UserHibernate implements UserDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserHibernate.class);
+    private final String BASE_QUERY ="FROM User u WHERE";
 
     private HibernateJPA hibernateJPA;
 
@@ -39,14 +41,20 @@ public class UserHibernate implements UserDao {
 
     @Override
     public User getUserByEmail(String email) {
-        String query = "FROM User u WHERE u.email=?1";
+        String query = new QueryBuilder()
+                .withBaseString(BASE_QUERY)
+                .withEmail(email)
+                .build();
         List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, email).getResultList();
         return userRecord.get(0);
     }
 
     @Override
     public User getUserById(int id) {
-        String query = "FROM User u WHERE u.id=?1";
+        String query = new QueryBuilder()
+                .withBaseString(BASE_QUERY)
+                .withId(Integer.valueOf(id).toString())
+                .build();
         List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, id).getResultList();
        return userRecord.get(0);
     }
