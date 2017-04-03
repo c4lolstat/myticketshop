@@ -51,10 +51,10 @@ public class PopulateController {
     }
 
     private void init(){
-        eventList.add("{\"title\":\"Jay and Silent Bob strike back\",\"airDate\":\"1489564967\",\"price\":\"990\",\"counter\":\"0\",\"auditorium\":\"Universal\"}");
-        eventList.add("{\"title\":\"Dogma\",\"airDate\":\"1489600967\",\"price\":\"1290\",\"counter\":\"0\",\"auditorium\":\"Illumination\"}");
-        eventList.add("{\"title\":\"Shop Stop\",\"airDate\":\"1489665767\",\"price\":\"1550\",\"counter\":\"0\",\"auditorium\":\"Disney\"}");
-        eventList.add("{\"title\":\"Mallrats\",\"airDate\":\"1489683767\",\"price\":\"800\",\"counter\":\"0\",\"auditorium\":\"Fox\"}");
+        eventList.add("{\"title\":\"Jay and Silent Bob strike back\",\"airDate\":\"1489564967\",\"price\":\"990\",\"counter\":\"0\",\"auditorium\":\"Universal\",\"active\":\"true\"}");
+        eventList.add("{\"title\":\"Dogma\",\"airDate\":\"1489600967\",\"price\":\"1290\",\"counter\":\"0\",\"auditorium\":\"Illumination\",\"active\":\"true\"}");
+        eventList.add("{\"title\":\"Shop Stop\",\"airDate\":\"1489665767\",\"price\":\"1550\",\"counter\":\"0\",\"auditorium\":\"Disney\",\"active\":\"true\"}");
+        eventList.add("{\"title\":\"Mallrats\",\"airDate\":\"1489683767\",\"price\":\"800\",\"counter\":\"0\",\"auditorium\":\"Fox\",\"active\":\"true\"}");
 
         userList.add("{\"firstName\":\"Magnolia\", \"lastName\":\"Rajongo\",\"password\":\"1234\",\"email\":\"kevin.smith@gmail.com\",\"account\":555,\"discount\":\"normal\"}");
         userList.add("{\"firstName\":\"Silent\", \"lastName\":\"Bob\",\"password\":\"1111\",\"email\":\"silent.bob@gmail.com\",\"account\":555,\"discount\":\"normal\"}");

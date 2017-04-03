@@ -70,33 +70,31 @@ public class EventHibernate implements EventDao {
                 .withBaseString(BASE_QUERY)
                 .withId(Integer.valueOf(id).toString())
                 .build();
-        List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query, Event.class).setParameter(1, id).getResultList();
+        List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query, Event.class).getResultList();
         return eventRecord.get(0);
     }
 
     private String buildQueryFromParamList(Map<String,String> params){
         QueryBuilder queryBuilder = new QueryBuilder().withBaseString(BASE_QUERY);
         Set<String> keys = params.keySet();
-        long today = LocalDate.now().atStartOfDay().toEpochSecond(ZoneOffset.UTC);
-        long fiveDaysFromNow = LocalDate.now().plusDays(5).atStartOfDay().toEpochSecond(ZoneOffset.UTC);
-            if (keys.contains("id")){
-                queryBuilder.withId(params.get("id"));
-            }
-            if(params.isEmpty()){
-                queryBuilder.withDateRange(Long.valueOf(today).toString(), Long.valueOf(fiveDaysFromNow).toString());
-            }
-            if (keys.contains("title")) {
-                queryBuilder.withTitle(params.get("title"));
+        if(keys.isEmpty()){
+            queryBuilder.withActive(params.get("active"));
+        }
+        if(keys.contains("id")){
+            queryBuilder.withId(params.get("id"));
+        }
+        if(keys.contains("title")) {
+            queryBuilder.withTitle(params.get("title"));
 
-            }
-            if(keys.contains("active")) {
-                queryBuilder.withActive(params.get("active"));
+        }
+        if(keys.contains("active")) {
+            queryBuilder.withActive(params.get("active"));
 
-            }
-            if(keys.contains("from") && keys.contains("to")){
-                queryBuilder.withDateRange(params.get("from"), params.get("to"));
-            }
-            return queryBuilder.build();
+        }
+        if(keys.contains("from") && keys.contains("to")){
+            queryBuilder.withDateRange(params.get("from"), params.get("to"));
+        }
+        return queryBuilder.build();
     }
 
     private void update(Event event, EventDTO eventDTO){
