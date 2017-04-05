@@ -8,3 +8,5 @@ open debug connection
 
 
 insert into User values(1,555,'normal','kevin.smith@gmail.com','dsfdsf','dsfsd','1234')
+
+

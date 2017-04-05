@@ -3,6 +3,7 @@ package com.epam.www.dataaccess.dao.impl;
 import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.AuditoriumDao;
 import com.epam.www.dataaccess.entity.Auditorium;
+import com.epam.www.domain.QueryBuilder;
 import com.epam.www.dto.AuditoriumDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ import java.util.List;
 public class AuditoriumHibernate implements AuditoriumDao{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditoriumHibernate.class);
-
+    private final String BASE_QUERY = "FROM Auditorium a WHERE";
     private HibernateJPA hibernateJPA;
 
     public AuditoriumHibernate (HibernateJPA hibernateJPA){
@@ -35,7 +36,7 @@ public class AuditoriumHibernate implements AuditoriumDao{
 
     @Override
     public Auditorium readAuditoriumByName(String name) {
-        String query = "FROM Auditorium a WHERE a.name=?1";
+        String query = new QueryBuilder().withBaseString(BASE_QUERY).withName(name).build();
         List<Auditorium> auditoriums = this.hibernateJPA.getEntityManager().createQuery(query, Auditorium.class).setParameter(1, name).getResultList();
         return auditoriums.get(0);
     }

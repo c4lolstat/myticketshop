@@ -24,6 +24,7 @@ public class EventDTO {
     @NotEmpty(message = "Auditorium must not be empty!")
     private String auditorium = "";
     private long counter;
+    private boolean active;
 
     public EventDTO(){}
 
@@ -34,6 +35,7 @@ public class EventDTO {
         this.airDate = event.getAirDate();
         this.auditorium = event.getAuditorium();
         this.counter = event.getCounter();
+        this.active = event.isActive();
     }
 
     public int getId() {
@@ -82,6 +84,14 @@ public class EventDTO {
 
     public void setCounter(long counter) {
         this.counter = counter;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }
