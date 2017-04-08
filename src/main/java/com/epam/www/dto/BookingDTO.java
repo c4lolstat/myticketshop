@@ -1,5 +1,6 @@
 package com.epam.www.dto;
 
+import com.epam.www.dataaccess.entity.Booking;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Min;
@@ -86,6 +87,19 @@ public class BookingDTO {
             bookingDTO.sumPrice = this.sumPrice;
             bookingDTO.booked = this.booked;
             bookingDTO.payed = this.payed;
+            return bookingDTO;
+        }
+
+        public BookingDTO build (Booking booking){
+            BookingDTO bookingDTO = new BookingDTO();
+            bookingDTO.event = booking.getEvent();
+            bookingDTO.user = booking.getUser();
+            bookingDTO.vipSeats = booking.getVipSeats();
+            bookingDTO.normalSeats = booking.getNormalSeats();
+            bookingDTO.discount = booking.getDiscount();
+            bookingDTO.sumPrice = booking.getSumPrice();
+            bookingDTO.booked = booking.isBooked();
+            bookingDTO.payed = booking.isPayed();
             return bookingDTO;
         }
     }

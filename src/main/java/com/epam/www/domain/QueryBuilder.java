@@ -1,5 +1,7 @@
 package com.epam.www.domain;
 
+import java.util.Calendar;
+
 /**
  * Created by Farkas on 2017.04.01..
  */
@@ -63,6 +65,12 @@ public class QueryBuilder {
     public QueryBuilder withActive(String active) {
         this.builder.append(" active=");
         this.builder.append(active);
+        return this;
+    }
+
+    public QueryBuilder withUser(int userId) {
+        this.builder.append(" user=");
+        this.builder.append(userId);
         return this;
     }
 }

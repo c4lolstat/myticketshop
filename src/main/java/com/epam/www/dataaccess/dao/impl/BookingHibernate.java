@@ -3,7 +3,6 @@ package com.epam.www.dataaccess.dao.impl;
 import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.BookingDao;
 import com.epam.www.dataaccess.entity.Booking;
-import com.epam.www.dataaccess.entity.Event;
 import com.epam.www.domain.QueryBuilder;
 import com.epam.www.dto.BookingDTO;
 import org.slf4j.Logger;
@@ -53,6 +52,14 @@ public class BookingHibernate implements BookingDao{
         Booking booking = new Booking();
         this.update(booking, bookingDTO);
         this.hibernateJPA.getEntityManager().persist(booking);
+    }
+
+    @Override
+    public List readBookingsByUser(int userId) {
+        String query = new QueryBuilder().withBaseString(BASE_QUERY)
+                .withUser(userId)
+                .build();
+        return this.hibernateJPA.getEntityManager().createQuery(query).getResultList();
     }
 
     private void update(Booking booking, BookingDTO bookingDTO){

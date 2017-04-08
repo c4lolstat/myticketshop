@@ -63,4 +63,11 @@ public class QueryBuilderTest {
         String result = queryBuilder.build();
         assertEquals("FROM Event WHERE active=true", result);
     }
+
+    @Test
+    public void WhenBuildQueryWithUserThenValidQueryIsCreated(){
+        queryBuilder.withUser(1);
+        String result = queryBuilder.build();
+        assertEquals("FROM Event WHERE user=1", result);
+    }
 }
