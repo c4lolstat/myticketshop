@@ -9,9 +9,9 @@ import java.util.List;
  * Created by Farkas on 2017.03.15..
  */
 public interface BookingDao {
-    int countVipSeatsForEvent(int eventId);
+    Long countVipSeatsForEvent(int eventId);
 
-    int countNormalSeatsForEvent(int eventId);
+    Long countNormalSeatsForEvent(int eventId);
 
     void createBooking(BookingDTO booking);
 

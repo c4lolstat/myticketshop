@@ -70,12 +70,12 @@ public class HibernateDaoFacadeImpl implements HibernateDaoFacade {
     }
 
     @Override
-    public int countVipSeatsForEvent(int eventId) {
+    public Long countVipSeatsForEvent(int eventId) {
         return this.bookingDao.countVipSeatsForEvent(eventId);
     }
 
     @Override
-    public int countNormalSeatsForEvent(int eventId) {
+    public Long countNormalSeatsForEvent(int eventId) {
         return this.bookingDao.countNormalSeatsForEvent(eventId);
     }
 

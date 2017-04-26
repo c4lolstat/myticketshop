@@ -37,7 +37,7 @@ public class AuditoriumHibernate implements AuditoriumDao{
     @Override
     public Auditorium readAuditoriumByName(String name) {
         String query = new QueryBuilder().withBaseString(BASE_QUERY).withName(name).build();
-        List<Auditorium> auditoriums = this.hibernateJPA.getEntityManager().createQuery(query, Auditorium.class).setParameter(1, name).getResultList();
+        List<Auditorium> auditoriums = this.hibernateJPA.getEntityManager().createQuery(query, Auditorium.class).getResultList();
         return auditoriums.get(0);
     }
 

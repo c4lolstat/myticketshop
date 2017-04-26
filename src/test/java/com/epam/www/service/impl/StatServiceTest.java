@@ -43,12 +43,12 @@ public class StatServiceTest {
     @Test
     public void whenEventInfoCalledThenEventStatsAreReturned(){
         Mockito.when(hibernateDaoFacade.readEventsWithParams(anyMap())).thenReturn(eventDTOList);
-        Mockito.when(hibernateDaoFacade.countVipSeatsForEvent(anyInt())).thenReturn(5);
-        Mockito.when(hibernateDaoFacade.countNormalSeatsForEvent(anyInt())).thenReturn(7);
+        Mockito.when(hibernateDaoFacade.countVipSeatsForEvent(anyInt())).thenReturn(5L);
+        Mockito.when(hibernateDaoFacade.countNormalSeatsForEvent(anyInt())).thenReturn(7L);
         List<StatServiceImpl.EventStats> result = this.statService.getEventInfoByParams(anyMap());
         assertEquals("testmovie",result.get(0).getTitle());
-        assertEquals(10,result.get(0).getQueryCount());
-        assertEquals(5,result.get(0).getVipseats());
-        assertEquals(7,result.get(0).getNormalSeats());
+        assertEquals(10, result.get(0).getQueryCount());
+        assertEquals(5L, result.get(0).getVipseats());
+        assertEquals(7L, result.get(0).getNormalSeats());
     }
 }

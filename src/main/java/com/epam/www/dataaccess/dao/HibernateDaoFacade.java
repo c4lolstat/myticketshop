@@ -24,9 +24,9 @@ public interface HibernateDaoFacade {
 
     void updateUser(UserDTO userDTO);
 
-    int countVipSeatsForEvent(int eventId);
+    Long countVipSeatsForEvent(int eventId);
 
-    int countNormalSeatsForEvent(int eventId);
+    Long countNormalSeatsForEvent(int eventId);
 
     List readBookingsByUser(int userId);
 }

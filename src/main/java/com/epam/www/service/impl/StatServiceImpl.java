@@ -26,8 +26,9 @@ public class StatServiceImpl implements StatService {
         List<EventDTO> eventDTOList = this.hibernateDaoFacade.readEventsWithParams(params);
 
         for (EventDTO eventDTO : eventDTOList){
-            int vipSeats = this.hibernateDaoFacade.countVipSeatsForEvent(eventDTO.getId());
-            int normalSeats = this.hibernateDaoFacade.countNormalSeatsForEvent(eventDTO.getId());
+            Long vipSeats = this.hibernateDaoFacade.countVipSeatsForEvent(eventDTO.getId());
+            Long normalSeats = this.hibernateDaoFacade.countNormalSeatsForEvent(eventDTO.getId());
+
             EventStatList.add(new EventStats(eventDTO, normalSeats, vipSeats));
         }
         return EventStatList;
@@ -36,14 +37,14 @@ public class StatServiceImpl implements StatService {
     public class EventStats {
         private String title = "";
         private long queryCount;
-        private int normalSeats;
-        private int vipseats;
+        private Long normalSeats;
+        private Long vipSeats;
 
-        public EventStats(EventDTO eventDTO, int normalSeats, int vipSeats){
+        public EventStats(EventDTO eventDTO, Long normalSeats, Long vipSeats){
             this.title = eventDTO.getTitle();
             this.queryCount = eventDTO.getCounter();
             this.normalSeats = normalSeats;
-            this.vipseats = vipSeats;
+            this.vipSeats = vipSeats;
         }
 
         public String getTitle() {
@@ -54,20 +55,20 @@ public class StatServiceImpl implements StatService {
             this.title = title;
         }
 
-        public int getNormalSeats() {
+        public Long getNormalSeats() {
             return normalSeats;
         }
 
-        public void setNormalSeats(int normalSeats) {
+        public void setNormalSeats(Long normalSeats) {
             this.normalSeats = normalSeats;
         }
 
-        public int getVipseats() {
-            return vipseats;
+        public Long getVipseats() {
+            return vipSeats;
         }
 
-        public void setVipseats(int vipseats) {
-            this.vipseats = vipseats;
+        public void setVipSeats(Long vipSeats) {
+            this.vipSeats = vipSeats;
         }
 
         public long getQueryCount() {

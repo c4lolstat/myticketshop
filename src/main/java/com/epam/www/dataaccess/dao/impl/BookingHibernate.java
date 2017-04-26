@@ -28,23 +28,23 @@ public class BookingHibernate implements BookingDao{
         this.hibernateJPA = hibernateJPA;
     }
 
-
+    //TODO handle Long somehow better
     @Override
-    public int countVipSeatsForEvent(int eventId) {
+    public Long countVipSeatsForEvent(int eventId) {
         String query = new QueryBuilder()
-                .withBaseString("SUM (vipSeats) " + BASE_QUERY)
+                .withBaseString("SELECT SUM (vipSeats) " + BASE_QUERY)
                 .withEventId(eventId)
                 .build();
-        return (int) this.hibernateJPA.getEntityManager().createQuery(query).getSingleResult();
+        return (Long) this.hibernateJPA.getEntityManager().createQuery(query).getSingleResult();
     }
 
     @Override
-    public int countNormalSeatsForEvent(int eventId) {
+    public Long countNormalSeatsForEvent(int eventId) {
         String query = new QueryBuilder()
-                .withBaseString("SUM (normalSeats) " + BASE_QUERY)
+                .withBaseString("SELECT SUM (normalSeats) " + BASE_QUERY)
                 .withEventId(eventId)
                 .build();
-        return (int) this.hibernateJPA.getEntityManager().createQuery(query).getSingleResult();
+        return (Long) this.hibernateJPA.getEntityManager().createQuery(query).getSingleResult();
     }
 
     @Override

@@ -45,7 +45,7 @@ public class UserHibernate implements UserDao {
                 .withBaseString(BASE_QUERY)
                 .withEmail(email)
                 .build();
-        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, email).getResultList();
+        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).getResultList();
         return userRecord.get(0);
     }
 
@@ -55,7 +55,7 @@ public class UserHibernate implements UserDao {
                 .withBaseString(BASE_QUERY)
                 .withId(Integer.valueOf(id).toString())
                 .build();
-        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).setParameter(1, id).getResultList();
+        List<User> userRecord = this.hibernateJPA.getEntityManager().createQuery(query, User.class).getResultList();
        return userRecord.get(0);
     }
 

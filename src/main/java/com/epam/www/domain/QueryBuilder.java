@@ -40,14 +40,16 @@ public class QueryBuilder {
     }
 
     public QueryBuilder withEmail(String email) {
-        this.builder.append(" email=");
+        this.builder.append(" email='");
         this.builder.append(email);
+        this.builder.append("'");
         return this;
     }
 
     public QueryBuilder withName(String name) {
-        this.builder.append(" name=");
+        this.builder.append(" name='");
         this.builder.append(name);
+        this.builder.append("'");
         return this;
     }
 

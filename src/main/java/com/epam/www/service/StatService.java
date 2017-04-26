@@ -9,5 +9,8 @@ import java.util.Map;
  * Created by Farkas on 2017.04.07..
  */
 public interface StatService {
+
     List<StatServiceImpl.EventStats> getEventInfoByParams(Map<String, String> params);
+
+
 }
