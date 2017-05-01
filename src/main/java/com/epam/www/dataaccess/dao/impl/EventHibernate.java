@@ -85,7 +85,7 @@ public class EventHibernate implements EventDao {
         QueryBuilder queryBuilder = new QueryBuilder().withBaseString(BASE_QUERY);
         Set<String> keys = params.keySet();
         if(keys.isEmpty()){
-            queryBuilder.withActive(params.get("active"));
+            queryBuilder.withActive("true");
         }
         if(keys.contains("id")){
             queryBuilder.withId(params.get("id"));

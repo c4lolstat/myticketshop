@@ -47,14 +47,14 @@ public class QueryBuilderTest {
     public void WhenBuildQueryWithEmailThenValidQueryIsCreated(){
         queryBuilder.withEmail("testEmail");
         String result = queryBuilder.build();
-        assertEquals("FROM Event WHERE email=testEmail", result);
+        assertEquals("FROM Event WHERE email='testEmail'", result);
     }
 
     @Test
     public void WhenBuildQueryWithNameThenValidQueryIsCreated(){
         queryBuilder.withName("testName");
         String result = queryBuilder.build();
-        assertEquals("FROM Event WHERE name=testName", result);
+        assertEquals("FROM Event WHERE name='testName'", result);
     }
 
     @Test

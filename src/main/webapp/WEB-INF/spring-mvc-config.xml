@@ -21,5 +21,13 @@
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	 
 	<mvc:annotation-driven />
- 
+
+	<!-- Enables swgger ui-->
+	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
+	<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+
+	<!-- Include a swagger configuration-->
+	<bean name="/applicationSwaggerConfig" class="com.epam.www.swagger.ApplicationSwaggerConfig"/>
+
+
 </beans>

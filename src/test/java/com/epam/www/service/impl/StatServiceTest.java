@@ -48,7 +48,7 @@ public class StatServiceTest {
         List<StatServiceImpl.EventStats> result = this.statService.getEventInfoByParams(anyMap());
         assertEquals("testmovie",result.get(0).getTitle());
         assertEquals(10, result.get(0).getQueryCount());
-        assertEquals(5L, result.get(0).getVipseats());
-        assertEquals(7L, result.get(0).getNormalSeats());
+        assertEquals(5L, (long) result.get(0).getVipseats());
+        assertEquals(7L, (long) result.get(0).getNormalSeats());
     }
 }
