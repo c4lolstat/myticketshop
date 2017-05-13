@@ -15,9 +15,9 @@ public class AuditoriumDTO {
     @NotEmpty(message = "Auditorium name must not be empty!")
     private String name = "";
     @Min(value = 0, message = "Vip seats cannot be negative!")
-    private int vipSeats;
+    private long vipSeats;
     @Min(value = 0, message = "Normal seats cannot be negative!")
-    private int normalSeats;
+    private long normalSeats;
 
     public AuditoriumDTO(){}
 
@@ -44,19 +44,19 @@ public class AuditoriumDTO {
         this.name = name;
     }
 
-    public int getVipSeats() {
+    public long getVipSeats() {
         return vipSeats;
     }
 
-    public void setVipSeats(int vipSeats) {
+    public void setVipSeats(long  vipSeats) {
         this.vipSeats = vipSeats;
     }
 
-    public int getNormalSeats() {
+    public long getNormalSeats() {
         return normalSeats;
     }
 
-    public void setNormalSeats(int normalSeats) {
+    public void setNormalSeats(long  normalSeats) {
         this.normalSeats = normalSeats;
     }
 }

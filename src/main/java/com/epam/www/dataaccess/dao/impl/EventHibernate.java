@@ -6,6 +6,7 @@ import com.epam.www.dataaccess.entity.Event;
 import com.epam.www.domain.QueryBuilder;
 import com.epam.www.dto.EventDTO;
 import net.sf.cglib.core.Local;
+import org.aspectj.lang.annotation.Pointcut;
 import org.h2.command.dml.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,8 @@ public class EventHibernate implements EventDao {
 
     private HibernateJPA hibernateJPA;
 
+    public EventHibernate(){}
+
     public EventHibernate(HibernateJPA hibernateJPA){
         this.hibernateJPA = hibernateJPA;
     }
@@ -48,6 +51,10 @@ public class EventHibernate implements EventDao {
     public void updateEvent(EventDTO eventDTO) {
         Event event = this.readEventById(eventDTO.getId());
         this.update(event, eventDTO);
+        this.hibernateJPA.getEntityManager().flush();
+    }
+
+    public void flushEvent() {
         this.hibernateJPA.getEntityManager().flush();
     }
 
@@ -78,7 +85,7 @@ public class EventHibernate implements EventDao {
         QueryBuilder queryBuilder = new QueryBuilder().withBaseString(BASE_QUERY);
         Set<String> keys = params.keySet();
         if(keys.isEmpty()){
-            queryBuilder.withActive(params.get("active"));
+            queryBuilder.withActive("true");
         }
         if(keys.contains("id")){
             queryBuilder.withId(params.get("id"));

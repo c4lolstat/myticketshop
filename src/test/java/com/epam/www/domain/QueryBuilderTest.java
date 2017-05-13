@@ -47,14 +47,14 @@ public class QueryBuilderTest {
     public void WhenBuildQueryWithEmailThenValidQueryIsCreated(){
         queryBuilder.withEmail("testEmail");
         String result = queryBuilder.build();
-        assertEquals("FROM Event WHERE email=testEmail", result);
+        assertEquals("FROM Event WHERE email='testEmail'", result);
     }
 
     @Test
     public void WhenBuildQueryWithNameThenValidQueryIsCreated(){
         queryBuilder.withName("testName");
         String result = queryBuilder.build();
-        assertEquals("FROM Event WHERE name=testName", result);
+        assertEquals("FROM Event WHERE name='testName'", result);
     }
 
     @Test
@@ -62,5 +62,12 @@ public class QueryBuilderTest {
         queryBuilder.withActive("true");
         String result = queryBuilder.build();
         assertEquals("FROM Event WHERE active=true", result);
+    }
+
+    @Test
+    public void WhenBuildQueryWithUserThenValidQueryIsCreated(){
+        queryBuilder.withUser(1);
+        String result = queryBuilder.build();
+        assertEquals("FROM Event WHERE user=1", result);
     }
 }

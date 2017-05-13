@@ -1,9 +1,6 @@
 package com.epam.www.dataaccess.dao.impl;
 
-import com.epam.www.dataaccess.dao.AuditoriumDao;
-import com.epam.www.dataaccess.dao.EventDao;
-import com.epam.www.dataaccess.dao.HibernateDaoFacade;
-import com.epam.www.dataaccess.dao.UserDao;
+import com.epam.www.dataaccess.dao.*;
 import com.epam.www.dataaccess.entity.Auditorium;
 import com.epam.www.dataaccess.entity.Event;
 import com.epam.www.dataaccess.entity.User;
@@ -13,7 +10,9 @@ import com.epam.www.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +30,9 @@ public class HibernateDaoFacadeImpl implements HibernateDaoFacade {
     @Autowired
     private AuditoriumDao auditoriumDao;
 
+    @Autowired
+    private BookingDao bookingDao;
+
 
     @Override
     public EventDTO readEventsWithParams(int id) {
@@ -38,6 +40,16 @@ public class HibernateDaoFacadeImpl implements HibernateDaoFacade {
         params.put("id",Integer.valueOf(id).toString());
         Event event = this.eventDao.readEventsWithParams(params).get(0);
        return new EventDTO(event);
+    }
+
+    @Override
+    public List<EventDTO> readEventsWithParams(Map<String, String> params) {
+        List<Event> events = this.eventDao.readEventsWithParams(params);
+        List<EventDTO> eventDTOList = new ArrayList<>();
+        for (Event event : events){
+            eventDTOList.add(new EventDTO(event));
+        }
+         return eventDTOList;
     }
 
     @Override
@@ -55,5 +67,20 @@ public class HibernateDaoFacadeImpl implements HibernateDaoFacade {
     @Override
     public void updateUser(UserDTO userDTO) {
         this.userDao.updateUser(userDTO);
+    }
+
+    @Override
+    public Long countVipSeatsForEvent(int eventId) {
+        return this.bookingDao.countVipSeatsForEvent(eventId);
+    }
+
+    @Override
+    public Long countNormalSeatsForEvent(int eventId) {
+        return this.bookingDao.countNormalSeatsForEvent(eventId);
+    }
+
+    @Override
+    public List readBookingsByUser(int userId) {
+        return this.bookingDao.readBookingsByUser(userId);
     }
 }

@@ -113,11 +113,17 @@ public class BookingServiceImpl implements BookingService {
 
         AvailableSeatsDTO availableSeats = new AvailableSeatsDTO(0,0);
         AuditoriumDTO auditorium = hibernateDaoFacade.readAuditoriumByName(eventDTO.getAuditorium());
-        int vipSeatCount = bookingDao.countVipSeatsForEvent(eventDTO.getId());
-        int normalSeatCount = bookingDao.countNormalSeatsForEvent(eventDTO.getId());
+        Long vipSeatCount = bookingDao.countVipSeatsForEvent(eventDTO.getId());
+        Long normalSeatCount = bookingDao.countNormalSeatsForEvent(eventDTO.getId());
 
-        Integer availableVipSeats = auditorium.getVipSeats() - vipSeatCount;
-        Integer availableNormalSeats = auditorium.getNormalSeats() - normalSeatCount;
+        long availableVipSeats = auditorium.getVipSeats();
+        long availableNormalSeats = auditorium.getNormalSeats();
+        if(vipSeatCount != null){
+            availableVipSeats -= vipSeatCount;
+        }
+        if(normalSeatCount != null){
+            availableNormalSeats -= normalSeatCount;
+        }
         availableSeats = new AvailableSeatsDTO(availableNormalSeats, availableVipSeats);
 
         return availableSeats;

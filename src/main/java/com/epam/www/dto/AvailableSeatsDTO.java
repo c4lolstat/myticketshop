@@ -8,22 +8,22 @@ import javax.validation.constraints.Min;
 public class AvailableSeatsDTO {
 
     @Min(value = 0, message = "Normal seats cannot be negative!")
-    private int normalSeats;
+    private long normalSeats;
     @Min(value = 0, message = "Vip seats cannot be negative!")
-    private int vipSeats;
+    private long vipSeats;
 
     private AvailableSeatsDTO(){}
 
-    public AvailableSeatsDTO(int normal, int vip){
+    public AvailableSeatsDTO(long normal, long vip){
         this.normalSeats = normal;
         this.vipSeats = vip;
     }
 
-    public int getNormalSeats() {
+    public long getNormalSeats() {
         return normalSeats;
     }
 
-    public int getVipSeats() {
+    public long getVipSeats() {
         return vipSeats;
     }
 

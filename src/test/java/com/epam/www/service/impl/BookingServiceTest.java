@@ -72,10 +72,10 @@ public class BookingServiceTest {
     public void givenEventIdWhenCallAvailableSeatsThenMapWithSeatCountsReturned(){
         Mockito.when(hibernateDaoFacade.readEventsWithParams(anyInt())).thenReturn(event);
         Mockito.when(hibernateDaoFacade.readAuditoriumByName(anyString())).thenReturn(auditoriumDTO);
-        Mockito.when(bookingDao.countNormalSeatsForEvent(anyInt())).thenReturn(5);
-        Mockito.when(bookingDao.countVipSeatsForEvent(anyInt())).thenReturn(2);
+        Mockito.when(bookingDao.countNormalSeatsForEvent(anyInt())).thenReturn(5L);
+        Mockito.when(bookingDao.countVipSeatsForEvent(anyInt())).thenReturn(2L);
         BookingInfoDTO result = bookingService.getBookingInformation(anyInt());
-        assertEquals(5,result.getAvailableSeatsDTO().getNormalSeats());
-        assertEquals(3,result.getAvailableSeatsDTO().getVipSeats());
+        assertEquals(5L, (long) result.getAvailableSeatsDTO().getNormalSeats());
+        assertEquals(3L, (long) result.getAvailableSeatsDTO().getVipSeats());
     }
 }

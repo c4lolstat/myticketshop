@@ -14,8 +14,8 @@ public class Auditorium {
     private int id;
 
     private String name = "";
-    private int vipSeats;
-    private int normalSeats;
+    private long vipSeats;
+    private long normalSeats;
 
     public int getId() {
         return id;
@@ -33,19 +33,19 @@ public class Auditorium {
         this.name = name;
     }
 
-    public int getVipSeats() {
+    public long getVipSeats() {
         return vipSeats;
     }
 
-    public void setVipSeats(int vipSeats) {
+    public void setVipSeats(long  vipSeats) {
         this.vipSeats = vipSeats;
     }
 
-    public int getNormalSeats() {
+    public long getNormalSeats() {
         return normalSeats;
     }
 
-    public void setNormalSeats(int normalSeats) {
+    public void setNormalSeats(long  normalSeats) {
         this.normalSeats = normalSeats;
     }
 }
