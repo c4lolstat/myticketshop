@@ -3,9 +3,11 @@ package com.epam.www.service.impl;
 import com.epam.www.auth.JwtUtil;
 import com.epam.www.dataaccess.dao.BookingDao;
 import com.epam.www.dataaccess.dao.HibernateDaoFacade;
+import com.epam.www.domain.DiscountEnums;
 import com.epam.www.domain.Price;
 import com.epam.www.dto.*;
 import com.epam.www.service.BookingService;
+import com.epam.www.service.DiscountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by Farkas on 2017.03.15..
@@ -28,6 +30,12 @@ public class BookingServiceImpl implements BookingService {
 
     @Autowired
     private BookingDao bookingDao;
+
+    @Autowired
+    private DiscountService discountService;
+
+    @Autowired
+    private PricingServiceImpl pricingService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -69,12 +77,17 @@ public class BookingServiceImpl implements BookingService {
 
     private void fulfillBooking(HttpServletRequest request) {
         UserDTO userDTO = this.getUserInformationFromRequest(request);
-        Price price = new Price.Calculator()
-                .withBasePrice(this.eventDTO.getPrice())
-                .withDiscount(userDTO.getDiscount())
-                .withNormalSeats(this.normalSeats)
-                .withVipSeats(this.vipSeats)
-                .calculate();
+
+        List<DiscountEnums> discounts = discountService.getDiscountForUser(userDTO);
+
+        Price price = pricingService.calculatePrice(this.normalSeats, this.vipSeats,this.eventDTO.getPrice(),discounts);
+
+//        Price price = new Price.Calculator()
+//                .withBasePrice(this.eventDTO.getPrice())
+//                .withDiscount(userDTO.getDiscount())
+//                .withNormalSeats(this.normalSeats)
+//                .withVipSeats(this.vipSeats)
+//                .calculate();
         boolean payed = userDTO.getAccount() > price.getSumPrice();
         BookingDTO bookingDTO = new BookingDTO.BookingBuilder()
                 .withUser(userDTO.getId())
