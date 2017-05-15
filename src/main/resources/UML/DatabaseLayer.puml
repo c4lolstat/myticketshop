@@ -1,0 +1,23 @@
+@startuml
+
+Interface EventDao
+Interface AuditoriumDao
+Interface HibernateDaoFacade
+Interface UserDao
+Interface BookingDao
+
+
+
+AuditoriumDao<|--AuditoriumImpl
+BookingDao<|--BookingDaoImpl
+EventDao<|--EventDaoImpl
+HibernateDaoFacade<|--HibernateDaoFacadeImpl
+UserDao<|--UserDaoImpl
+
+UserDaoImpl*--HibernateJPA
+AuditoriumImpl*--HibernateJPA
+BookingDaoImpl*--HibernateJPA
+EventDaoImpl*--HibernateJPA
+HibernateDaoFacadeImpl*--HibernateJPA
+
+@enduml
