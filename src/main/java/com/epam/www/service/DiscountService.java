@@ -10,6 +10,6 @@ import java.util.List;
  */
 public interface DiscountService {
 
-    List<DiscountEnums> getDiscountForUser(UserDTO userDTO);
+    List<DiscountEnums> getDiscountForUser(int userId);
 
 }

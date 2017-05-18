@@ -22,13 +22,13 @@ public class PricingServiceImpl implements PricingService {
                 price = new TenthTicketDiscount(price);
             }
             if(discount == DiscountEnums.FIVE_PERCENT){
-                price = new PercentageBasedDiscount(price, 0.05d);
+                price = new PercentageBasedDiscount(price, 0.95d);
             }
             if(discount == DiscountEnums.TEN_PERCENT){
-                price = new PercentageBasedDiscount(price, 0.1d);
+                price = new PercentageBasedDiscount(price, 0.9d);
             }
             if(discount == DiscountEnums.FIFTEEN_PERCENT){
-                price = new PercentageBasedDiscount(price, 0.15d);
+                price = new PercentageBasedDiscount(price, 0.85d);
             }
         }
 

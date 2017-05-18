@@ -74,7 +74,7 @@ public class BookingServiceImpl implements BookingService {
     private void fulfillBooking(HttpServletRequest request) {
         UserDTO userDTO = this.getUserInformationFromRequest(request);
 
-        List<DiscountEnums> discounts = discountService.getDiscountForUser(userDTO);
+        List<DiscountEnums> discounts = discountService.getDiscountForUser(userDTO.getId());
 
         Price price = pricingService.getPrice(this.normalSeats, this.vipSeats, this.eventDTO.getPrice(), discounts);
 

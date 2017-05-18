@@ -3,7 +3,6 @@ package com.epam.www.service.impl;
 import com.epam.www.dataaccess.dao.HibernateDaoFacade;
 import com.epam.www.domain.DiscountEnums;
 import com.epam.www.dto.BookingDTO;
-import com.epam.www.dto.UserDTO;
 import com.epam.www.service.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,9 +22,9 @@ public class DiscountServiceImpl implements DiscountService {
     private List<BookingDTO> bookingList;
 
     @Override
-    public List<DiscountEnums> getDiscountForUser(UserDTO userDTO) {
+    public List<DiscountEnums> getDiscountForUser(int userId) {
         List<DiscountEnums> discountList = new ArrayList<>();
-        bookingList = hibernateDaoFacade.readBookingsByUser(userDTO.getId());
+        bookingList = hibernateDaoFacade.readBookingsByUser(userId);
         discountList.add(discountByMoneySpent());
         discountList.add(discountByBoughtTickets());
         return discountList;
