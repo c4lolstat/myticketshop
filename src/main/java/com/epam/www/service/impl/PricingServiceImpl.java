@@ -1,7 +1,6 @@
 package com.epam.www.service.impl;
 
-import com.epam.www.domain.DiscountEnums;
-import com.epam.www.domain.Price;
+import com.epam.www.domain.*;
 import com.epam.www.service.PricingService;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +12,26 @@ import java.util.List;
 @Component
 public class PricingServiceImpl implements PricingService {
 
-    public Price calculatePrice(int normalSeats, int vipSeats, long price, List<DiscountEnums> discounts) {
+    @Override
+    public Price getPrice(int normalSeats, int vipSeats, long basePrice, List<DiscountEnums> discounts) {
 
-        return null;
+        Price price = new BasePrice(normalSeats, vipSeats, basePrice);
+
+        for (DiscountEnums discount : discounts){
+            if(discount == DiscountEnums.EVERY_TEN_TICKET){
+                price = new TenthTicketDiscount(price);
+            }
+            if(discount == DiscountEnums.FIVE_PERCENT){
+                price = new PercentageBasedDiscount(price, 0.05d);
+            }
+            if(discount == DiscountEnums.TEN_PERCENT){
+                price = new PercentageBasedDiscount(price, 0.1d);
+            }
+            if(discount == DiscountEnums.FIFTEEN_PERCENT){
+                price = new PercentageBasedDiscount(price, 0.15d);
+            }
+        }
+
+        return price;
     }
 }

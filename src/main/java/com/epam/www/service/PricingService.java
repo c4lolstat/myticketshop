@@ -1,6 +1,7 @@
 package com.epam.www.service;
 
 import com.epam.www.domain.DiscountEnums;
+import com.epam.www.domain.BasePrice;
 import com.epam.www.domain.Price;
 
 import java.util.List;
@@ -10,6 +11,6 @@ import java.util.List;
  */
 public interface PricingService {
 
-    Price calculatePrice(int normalSeats, int vipSeats, long price, List<DiscountEnums> discounts);
+    Price getPrice(int normalSeats, int vipSeats, long price, List<DiscountEnums> discounts);
 }
 

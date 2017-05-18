@@ -44,10 +44,6 @@ public class BookingServiceImpl implements BookingService {
     private int normalSeats;
     private EventDTO eventDTO;
 
-    //TODO ask: how open should be a service? Is it adviced to define a public endpoint for everything?
-    //TODO ask: how unit test effectively bookTicket?
-    //TODO refactor this class when finished
-
     @Override
     public BookingInfoDTO getBookingInformation(int id) {
         EventDTO eventDTO = hibernateDaoFacade.readEventsWithParams(id);
@@ -80,14 +76,8 @@ public class BookingServiceImpl implements BookingService {
 
         List<DiscountEnums> discounts = discountService.getDiscountForUser(userDTO);
 
-        Price price = pricingService.calculatePrice(this.normalSeats, this.vipSeats,this.eventDTO.getPrice(),discounts);
+        Price price = pricingService.getPrice(this.normalSeats, this.vipSeats, this.eventDTO.getPrice(), discounts);
 
-//        Price price = new Price.Calculator()
-//                .withBasePrice(this.eventDTO.getPrice())
-//                .withDiscount(userDTO.getDiscount())
-//                .withNormalSeats(this.normalSeats)
-//                .withVipSeats(this.vipSeats)
-//                .calculate();
         boolean payed = userDTO.getAccount() > price.getSumPrice();
         BookingDTO bookingDTO = new BookingDTO.BookingBuilder()
                 .withUser(userDTO.getId())
