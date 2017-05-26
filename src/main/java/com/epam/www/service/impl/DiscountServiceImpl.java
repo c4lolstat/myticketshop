@@ -32,7 +32,7 @@ public class DiscountServiceImpl implements DiscountService {
 
     private DiscountEnums discountByBoughtTickets() {
         int ticketsNumber = this.bookingList.size();
-        return (ticketsNumber % 10) == 9 ? DiscountEnums.EVERY_TEN_TICKET : DiscountEnums.EMPTY;
+        return (ticketsNumber % 10) == 9 ? DiscountEnums.EVERY_TEN_BOOKING : DiscountEnums.EMPTY;
     }
 
     private DiscountEnums discountByMoneySpent() {
@@ -48,7 +48,7 @@ public class DiscountServiceImpl implements DiscountService {
         if (allTheMoneySpent >= 10000 && allTheMoneySpent < 15000) {
             return DiscountEnums.TEN_PERCENT;
         }
-        if (allTheMoneySpent >= 15000 && allTheMoneySpent < 20000) {
+        if (allTheMoneySpent >= 15000) {
             return DiscountEnums.FIFTEEN_PERCENT;
         }
         return DiscountEnums.EMPTY;

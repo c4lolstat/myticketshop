@@ -18,8 +18,8 @@ import javax.validation.Valid;
 /**
  * Created by Farkas on 2017.02.28..
  */
-@RestController
-@RequestMapping(value = "/api/event")
+//@RestController
+//@RequestMapping(value = "/api/event")
 public class UpdateEventController extends BaseController{
 
 //    {"title":"Dogma","startDate":"12345665","endDate":"14987456","hour":"4321","price":"1990","counter":"0","auditorium":"Universal"}
@@ -34,7 +34,7 @@ public class UpdateEventController extends BaseController{
      * @param eventDTO that hold the user email and password.
      * @return Event data in JSON format.
      * */
-    @RequestMapping(method = RequestMethod.PUT)
+//    @RequestMapping(method = RequestMethod.PUT)
     public ResponseEntity<EventDTO> updateEvent(@Valid @RequestBody EventDTO eventDTO){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if (eventDTO.getId() > 0){

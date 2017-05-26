@@ -18,7 +18,7 @@ public class PricingServiceImpl implements PricingService {
         Price price = new BasePrice(normalSeats, vipSeats, basePrice);
 
         for (DiscountEnums discount : discounts){
-            if(discount == DiscountEnums.EVERY_TEN_TICKET){
+            if(discount == DiscountEnums.EVERY_TEN_BOOKING){
                 price = new TenthTicketDiscount(price);
             }
             if(discount == DiscountEnums.FIVE_PERCENT){

@@ -3,7 +3,6 @@ package com.epam.www.service.impl;
 import com.epam.www.dataaccess.dao.HibernateDaoFacade;
 import com.epam.www.domain.DiscountEnums;
 import com.epam.www.dto.BookingDTO;
-import com.epam.www.dto.UserDTO;
 import com.epam.www.service.DiscountService;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +47,7 @@ public class DiscountServiceImplTest {
         }
         Mockito.when(hibernateDaoFacade.readBookingsByUser(anyInt())).thenReturn(bookingList);
         List<DiscountEnums> result = discountService.getDiscountForUser(anyInt());
-        assertEquals(DiscountEnums.EVERY_TEN_TICKET,result.get(1));
+        assertEquals(DiscountEnums.EVERY_TEN_BOOKING,result.get(1));
     }
 
     @Test

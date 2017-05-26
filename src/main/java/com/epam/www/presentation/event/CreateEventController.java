@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RestController
-@RequestMapping(value = "/api/event")
+//@RestController
+//@RequestMapping(value = "/api/event")
 public class CreateEventController extends BaseController{
 //    {"title":"Jay and Silent Bob strike back","startDate":"12345665","endDate":"14987456","hour":"4321","price":"990","counter":"0","auditorium":"Universal"}
 
@@ -34,7 +34,7 @@ public class CreateEventController extends BaseController{
      * @param eventDTO DTO that hold the data for the new event.
      * @return JSON with HTTP status.
      * */
-    @RequestMapping(method = RequestMethod.POST,produces = "application/json")
+//    @RequestMapping(method = RequestMethod.POST,produces = "application/json")
     public ResponseEntity<EventDTO> createEvent(@Valid @RequestBody EventDTO eventDTO){
         eventService.createEvent(eventDTO);
         return new ResponseEntity<EventDTO>(eventDTO, HttpStatus.OK);
