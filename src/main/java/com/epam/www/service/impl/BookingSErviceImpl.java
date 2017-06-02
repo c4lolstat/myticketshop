@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -78,7 +79,7 @@ public class BookingServiceImpl implements BookingService {
 
         Price price = pricingService.getPrice(this.normalSeats, this.vipSeats, this.eventDTO.getPrice(), discounts);
 
-        boolean payed = userDTO.getAccount() > price.getSumPrice();
+        boolean payed = userDTO.getAccount().compareTo(price.getSumPrice()) == 1;
         BookingDTO bookingDTO = new BookingDTO.BookingBuilder()
                 .withUser(userDTO.getId())
                 .withEvent(this.eventDTO.getId())
@@ -106,7 +107,7 @@ public class BookingServiceImpl implements BookingService {
     private void transactBooking(UserDTO userDTO, BookingDTO bookingDTO){
         bookingDao.createBooking(bookingDTO);
         if (bookingDTO.isPayed()){
-            userDTO.setAccount(userDTO.getAccount()-bookingDTO.getSumPrice());
+            userDTO.setAccount(userDTO.getAccount().subtract(bookingDTO.getSumPrice()));
             hibernateDaoFacade.updateUser(userDTO);
         }
 

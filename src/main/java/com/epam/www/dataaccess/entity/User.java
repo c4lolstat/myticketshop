@@ -1,6 +1,7 @@
 package com.epam.www.dataaccess.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * Created by Farkas on 2017.02.07..
@@ -18,7 +19,7 @@ public class User {
     private String lastName = "";
     private String password = "";
     private String email = "";
-    private long account = 0;
+    private BigDecimal account = BigDecimal.ZERO;
     private String discount = "";
 
     public int getId() {
@@ -61,11 +62,11 @@ public class User {
         this.email = email;
     }
 
-    public long getAccount() {
+    public BigDecimal getAccount() {
         return account;
     }
 
-    public void setAccount(long account) {
+    public void setAccount(BigDecimal account) {
         this.account = account;
     }
 

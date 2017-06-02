@@ -4,6 +4,7 @@ import com.epam.www.domain.*;
 import com.epam.www.service.PricingService;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -12,24 +13,18 @@ import java.util.List;
 @Component
 public class PricingServiceImpl implements PricingService {
 
-    @Override
-    public Price getPrice(int normalSeats, int vipSeats, long basePrice, List<DiscountEnums> discounts) {
+    public static final BigDecimal VIP_PRICE_MODIFIER = BigDecimal.valueOf(2L);
 
-        Price price = new BasePrice(normalSeats, vipSeats, basePrice);
+    @Override
+    public Price getPrice(int normalSeats, int vipSeats, BigDecimal basePrice, List<DiscountEnums> discounts) {
+
+        BigDecimal initialPrice = basePrice.multiply(BigDecimal.valueOf(normalSeats))
+                .add(basePrice.multiply(VIP_PRICE_MODIFIER).multiply(BigDecimal.valueOf(vipSeats)));
+
+        Price price = new BasePrice(initialPrice);
 
         for (DiscountEnums discount : discounts){
-            if(discount == DiscountEnums.EVERY_TEN_BOOKING){
-                price = new TenthTicketDiscount(price);
-            }
-            if(discount == DiscountEnums.FIVE_PERCENT){
-                price = new PercentageBasedDiscount(price, 0.95d);
-            }
-            if(discount == DiscountEnums.TEN_PERCENT){
-                price = new PercentageBasedDiscount(price, 0.9d);
-            }
-            if(discount == DiscountEnums.FIFTEEN_PERCENT){
-                price = new PercentageBasedDiscount(price, 0.85d);
-            }
+            price = new DiscountPrice(price,discount);
         }
 
         return price;

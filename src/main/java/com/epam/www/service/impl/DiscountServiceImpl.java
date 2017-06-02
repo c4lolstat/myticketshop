@@ -7,6 +7,7 @@ import com.epam.www.service.DiscountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,10 @@ import java.util.List;
  */
 @Component
 public class DiscountServiceImpl implements DiscountService {
+
+    private final BigDecimal TIER_ONE = BigDecimal.valueOf(5000);
+    private final BigDecimal TIER_TWO = BigDecimal.valueOf(10000);
+    private final BigDecimal TIER_THREE = BigDecimal.valueOf(15000);
 
     @Autowired
     private HibernateDaoFacade hibernateDaoFacade;
@@ -36,19 +41,19 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     private DiscountEnums discountByMoneySpent() {
-        long allTheMoneySpent = 0;
+        BigDecimal allTheMoneySpent = BigDecimal.ZERO;
 
         for (BookingDTO bookingDTO : bookingList){
-            allTheMoneySpent += bookingDTO.getSumPrice();
+            allTheMoneySpent = allTheMoneySpent.add(bookingDTO.getSumPrice());
         }
 
-        if ( allTheMoneySpent >= 5000 && allTheMoneySpent < 10000) {
+        if ( allTheMoneySpent.compareTo(TIER_ONE) >=  0 && allTheMoneySpent.compareTo(TIER_TWO) < 0) {
             return DiscountEnums.FIVE_PERCENT;
         }
-        if (allTheMoneySpent >= 10000 && allTheMoneySpent < 15000) {
+        if (allTheMoneySpent.compareTo(TIER_TWO) >= 0&& allTheMoneySpent.compareTo(TIER_TWO) < 0) {
             return DiscountEnums.TEN_PERCENT;
         }
-        if (allTheMoneySpent >= 15000) {
+        if (allTheMoneySpent.compareTo(TIER_THREE) >= 0) {
             return DiscountEnums.FIFTEEN_PERCENT;
         }
         return DiscountEnums.EMPTY;

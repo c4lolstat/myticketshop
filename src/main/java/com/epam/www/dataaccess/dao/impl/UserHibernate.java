@@ -5,11 +5,8 @@ import com.epam.www.dataaccess.dao.*;
 import com.epam.www.dataaccess.entity.User;
 import com.epam.www.domain.QueryBuilder;
 import com.epam.www.dto.UserDTO;
-import org.hibernate.annotations.NamedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

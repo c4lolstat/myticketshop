@@ -5,18 +5,11 @@ import com.epam.www.dataaccess.dao.EventDao;
 import com.epam.www.dataaccess.entity.Event;
 import com.epam.www.domain.QueryBuilder;
 import com.epam.www.dto.EventDTO;
-import net.sf.cglib.core.Local;
-import org.aspectj.lang.annotation.Pointcut;
-import org.h2.command.dml.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

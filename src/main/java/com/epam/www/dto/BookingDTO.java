@@ -4,6 +4,7 @@ import com.epam.www.dataaccess.entity.Booking;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Min;
+import java.math.BigDecimal;
 
 /**
  * Created by Farkas on 2017.03.15..
@@ -21,7 +22,7 @@ public class BookingDTO {
     private int normalSeats;
     private String discount="";
     @Min(value = 0, message = "Price cannot be negative!")
-    private long sumPrice;
+    private BigDecimal sumPrice;
     private boolean booked;
     private boolean payed;
 
@@ -33,7 +34,7 @@ public class BookingDTO {
         private int vipSeats;
         private int normalSeats;
         private String discount="";
-        private long sumPrice;
+        private BigDecimal sumPrice;
         private boolean booked;
         private boolean payed;
 
@@ -62,7 +63,7 @@ public class BookingDTO {
             return this;
         }
 
-        public BookingBuilder withSumPrice(long sumPrice) {
+        public BookingBuilder withSumPrice(BigDecimal sumPrice) {
             this.sumPrice = sumPrice;
             return this;
         }
@@ -128,7 +129,7 @@ public class BookingDTO {
         return discount;
     }
 
-    public long getSumPrice() {
+    public BigDecimal getSumPrice() {
         return sumPrice;
     }
 

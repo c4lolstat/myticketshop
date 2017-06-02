@@ -1,25 +1,21 @@
 package com.epam.www.domain;
 
+import java.math.BigDecimal;
+
 /**
- * Created by Farkas on 2017.03.19..
+ * Created by Zoltan_Biro on 6/2/2017.
  */
-public class BasePrice implements Price{
+public class BasePrice implements Price {
 
-    public static final long VIP_PRICE_MODIFIER = 2l;
-    private long sumPrice;
-    private int normalSeats;
-    private int vipSeats;
-    private long price;
+    private BigDecimal price;
 
-
-    public BasePrice(int normalSeats, int vipSeats, long price) {
-        this.normalSeats = normalSeats;
-        this.vipSeats = vipSeats;
+    public BasePrice(BigDecimal price){
         this.price = price;
     }
 
     @Override
-    public long getSumPrice() {
-        return (vipSeats*VIP_PRICE_MODIFIER*price) + (normalSeats*price);
+    public BigDecimal getSumPrice() {
+        return this.price;
     }
+
 }
