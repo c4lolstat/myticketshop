@@ -50,7 +50,7 @@ public class DiscountServiceImpl implements DiscountService {
         if ( allTheMoneySpent.compareTo(TIER_ONE) >=  0 && allTheMoneySpent.compareTo(TIER_TWO) < 0) {
             return DiscountEnums.FIVE_PERCENT;
         }
-        if (allTheMoneySpent.compareTo(TIER_TWO) >= 0&& allTheMoneySpent.compareTo(TIER_TWO) < 0) {
+        if (allTheMoneySpent.compareTo(TIER_TWO) >= 0&& allTheMoneySpent.compareTo(TIER_THREE) < 0) {
             return DiscountEnums.TEN_PERCENT;
         }
         if (allTheMoneySpent.compareTo(TIER_THREE) >= 0) {

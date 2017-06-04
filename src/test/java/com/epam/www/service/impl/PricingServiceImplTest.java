@@ -8,10 +8,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Farkas on 2017.05.18..
@@ -19,6 +21,12 @@ import static org.junit.Assert.assertEquals;
 @RunWith(MockitoJUnitRunner.class)
 public class PricingServiceImplTest {
 
+    private static final BigDecimal BASE_PRICE = BigDecimal.valueOf(100.0D);
+    private static final BigDecimal TEN_PERCENT = BigDecimal.valueOf(90.0D);
+    private static final BigDecimal FIVE_PERCENT = BigDecimal.valueOf(95.0D);
+    private static final BigDecimal HALF_PRICE = BigDecimal.valueOf(50.0D);
+    private static final BigDecimal MULTIPLE = BigDecimal.valueOf(45.0D);
+    private static final BigDecimal FIFTEEN_PERCENT = BigDecimal.valueOf(85.0D);
     private PricingService pricingService = new PricingServiceImpl();
 
     private List<DiscountEnums> discountList;
@@ -31,36 +39,36 @@ public class PricingServiceImplTest {
     @Test
     public void givenTenthDiscountWhenCalculatingPriceThenValueIsCorrect(){
         discountList.add(DiscountEnums.EVERY_TEN_BOOKING);
-        Price result = pricingService.getPrice(1,0,100,discountList);
-        assertEquals(50L, result.getSumPrice());
+        Price result = pricingService.getPrice(1,0, BASE_PRICE,discountList);
+        assertTrue(HALF_PRICE.compareTo(result.getSumPrice()) == 0);
     }
 
     @Test
     public void givenFivePercentDiscountWhenCalculatingPriceThenValueIsCorrect(){
         discountList.add(DiscountEnums.FIVE_PERCENT);
-        Price result = pricingService.getPrice(1,0,100,discountList);
-        assertEquals(95L, result.getSumPrice());
+        Price result = pricingService.getPrice(1,0,BASE_PRICE,discountList);
+        assertTrue(FIVE_PERCENT.compareTo(result.getSumPrice()) == 0);
     }
 
     @Test
     public void givenTenPercentDiscountWhenCalculatingPriceThenValueIsCorrect(){
         discountList.add(DiscountEnums.TEN_PERCENT);
-        Price result = pricingService.getPrice(1,0,100,discountList);
-        assertEquals(90L, result.getSumPrice());
+        Price result = pricingService.getPrice(1,0,BASE_PRICE,discountList);
+        assertTrue(TEN_PERCENT.compareTo(result.getSumPrice()) == 0);
     }
 
     @Test
-    public void givenfifteenPercentDiscountWhenCalculatingPriceThenValueIsCorrect(){
+    public void givenFifteenPercentDiscountWhenCalculatingPriceThenValueIsCorrect(){
         discountList.add(DiscountEnums.FIFTEEN_PERCENT);
-        Price result = pricingService.getPrice(1,0,100,discountList);
-        assertEquals(85L, result.getSumPrice());
+        Price result = pricingService.getPrice(1,0,BASE_PRICE,discountList);
+        assertTrue(FIFTEEN_PERCENT.compareTo(result.getSumPrice()) == 0);
     }
 
     @Test
     public void givenMultipleDiscountWhenCalculatingPriceThenValueIsCorrect(){
         discountList.add(DiscountEnums.TEN_PERCENT);
         discountList.add(DiscountEnums.EVERY_TEN_BOOKING);
-        Price result = pricingService.getPrice(1,0,100,discountList);
-        assertEquals(45L, result.getSumPrice());
+        Price result = pricingService.getPrice(1,0,BASE_PRICE,discountList);
+        assertTrue(MULTIPLE.compareTo(result.getSumPrice()) == 0);
     }
 }

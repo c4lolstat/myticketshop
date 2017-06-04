@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class DiscountServiceImplTest {
     @Test
     public void givenBookingListWithNineElementWhenCheckingDiscountThenTenthIsIssued(){
         for(int i=0;i<9;i++){
-            BookingDTO booking = new BookingDTO.BookingBuilder().build();
+            BookingDTO booking = new BookingDTO.BookingBuilder().withSumPrice(BigDecimal.ZERO).build();
             bookingList.add(booking);
         }
         Mockito.when(hibernateDaoFacade.readBookingsByUser(anyInt())).thenReturn(bookingList);
@@ -52,7 +53,7 @@ public class DiscountServiceImplTest {
 
     @Test
          public void givenBookingListWith6000WhenCheckingDiscountThenFivePercentIsIssued(){
-        BookingDTO booking = new BookingDTO.BookingBuilder().withSumPrice(6000L).build();
+        BookingDTO booking = new BookingDTO.BookingBuilder().withSumPrice(BigDecimal.valueOf(6000.0)).build();
         bookingList.add(booking);
         Mockito.when(hibernateDaoFacade.readBookingsByUser(anyInt())).thenReturn(bookingList);
         List<DiscountEnums> result = discountService.getDiscountForUser(anyInt());
@@ -61,7 +62,7 @@ public class DiscountServiceImplTest {
 
     @Test
     public void givenBookingListWith13000WhenCheckingDiscountThenTenPercentIsIssued(){
-        BookingDTO booking = new BookingDTO.BookingBuilder().withSumPrice(13000L).build();
+        BookingDTO booking = new BookingDTO.BookingBuilder().withSumPrice(BigDecimal.valueOf(13000.0)).build();
         bookingList.add(booking);
         Mockito.when(hibernateDaoFacade.readBookingsByUser(anyInt())).thenReturn(bookingList);
         List<DiscountEnums> result = discountService.getDiscountForUser(anyInt());
@@ -70,7 +71,7 @@ public class DiscountServiceImplTest {
 
     @Test
     public void givenBookingListWith18000WhenCheckingDiscountThenFifteenPercentIsIssued(){
-        BookingDTO booking = new BookingDTO.BookingBuilder().withSumPrice(18000L).build();
+        BookingDTO booking = new BookingDTO.BookingBuilder().withSumPrice(BigDecimal.valueOf(18000.0)).build();
         bookingList.add(booking);
         Mockito.when(hibernateDaoFacade.readBookingsByUser(anyInt())).thenReturn(bookingList);
         List<DiscountEnums> result = discountService.getDiscountForUser(anyInt());
@@ -79,7 +80,7 @@ public class DiscountServiceImplTest {
 
     @Test
     public void givenBookingListWithoutPriceWhenCheckingDiscountThenEmptyIsIssued(){
-        BookingDTO booking = new BookingDTO.BookingBuilder().build();
+        BookingDTO booking = new BookingDTO.BookingBuilder().withSumPrice(BigDecimal.ZERO).build();
         bookingList.add(booking);
         Mockito.when(hibernateDaoFacade.readBookingsByUser(anyInt())).thenReturn(bookingList);
         List<DiscountEnums> result = discountService.getDiscountForUser(anyInt());
