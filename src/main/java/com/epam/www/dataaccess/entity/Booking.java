@@ -1,6 +1,7 @@
 package com.epam.www.dataaccess.entity;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 /**
  * Created by Farkas on 2017.03.15..
@@ -18,7 +19,7 @@ public class Booking {
     private int vipSeats;
     private int normalSeats;
     private String discount="";
-    private long sumPrice;
+    private BigDecimal sumPrice;
     private boolean booked;
     private boolean payed;
 
@@ -70,11 +71,11 @@ public class Booking {
         this.discount = discount;
     }
 
-    public long getSumPrice() {
+    public BigDecimal getSumPrice() {
         return sumPrice;
     }
 
-    public void setSumPrice(long sumPrice) {
+    public void setSumPrice(BigDecimal sumPrice) {
         this.sumPrice = sumPrice;
     }
 

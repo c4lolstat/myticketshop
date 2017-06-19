@@ -2,6 +2,7 @@ package com.epam.www.dataaccess.dao;
 
 import com.epam.www.dataaccess.entity.Event;
 import com.epam.www.dto.AuditoriumDTO;
+import com.epam.www.dto.BookingDTO;
 import com.epam.www.dto.EventDTO;
 import com.epam.www.dto.UserDTO;
 
@@ -28,5 +29,5 @@ public interface HibernateDaoFacade {
 
     Long countNormalSeatsForEvent(int eventId);
 
-    List readBookingsByUser(int userId);
+    List<BookingDTO> readBookingsByUser(int userId);
 }

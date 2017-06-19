@@ -28,13 +28,7 @@ public class HistoryServiceImpl implements HistoryService {
     public List<BookingDTO> getUserBookingHistory(HttpServletRequest request) {
         String authToken = jwtUtil.getTokenFromRequest(request);
         int userId = jwtUtil.parseToken(authToken).getId();
-
-        List<Booking> bookingList = this.hibernateDaoFacade.readBookingsByUser(userId);
-        List<BookingDTO> history = new ArrayList<>();
-        for(Booking booking : bookingList){
-            history.add(new BookingDTO.BookingBuilder().build(booking));
-        }
-        return history;
+        return hibernateDaoFacade.readBookingsByUser(userId);
     }
 
 }

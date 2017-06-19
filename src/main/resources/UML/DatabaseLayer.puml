@@ -1,0 +1,45 @@
+@startuml
+
+Interface EventDao {
+    +create(EventDTO)
+    +readWithParams(Map)
+    +update(EventDTO)
+    +delete(int)
+}
+
+Interface UserDao{
+    +createUser()
+    +deleteUser()
+    +updateUser()
+    +getUserById()
+    +getUserByEmail()
+}
+Interface BookingDao {
+    + countVipSeats(int)
+    +countNormalSeats(int)
+    +createBooking(BookingDTO)
+    +readBookingByUser(int)
+}
+Interface AuditoriumDao
+Interface HibernateDaoFacade
+
+class HibernateJPA {
+    -entityManager
+    +getEntityManager()
+}
+
+
+UserDaoImpl--|>UserDao
+AuditoriumDao<|--AuditoriumImpl
+BookingDao<|--BookingDaoImpl
+EventDao<|--EventDaoImpl
+HibernateDaoFacade<|--HibernateDaoFacadeImpl
+
+
+UserDaoImpl*--HibernateJPA
+AuditoriumImpl*--HibernateJPA
+BookingDaoImpl*--HibernateJPA
+EventDaoImpl*--HibernateJPA
+HibernateDaoFacadeImpl*--HibernateJPA
+
+@enduml

@@ -17,8 +17,8 @@ import java.util.Map;
 /**
  * Created by Farkas on 2017.02.27..
  */
-@RestController
-@RequestMapping(value = "/api/event")
+//@RestController
+//@RequestMapping(value = "/api/event")
 public class ReadEventController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReadEventController.class);
@@ -31,7 +31,7 @@ public class ReadEventController {
      * @param params that hold the id of the event.
      * @return Event data in JSON format.
      * */
-    @RequestMapping(method = RequestMethod.GET)
+//    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<EventDTO>> getEvents(@RequestParam Map<String, String> params){
         List<EventDTO> result = Collections.emptyList();
         result = eventService.readEventsWithParams(params);

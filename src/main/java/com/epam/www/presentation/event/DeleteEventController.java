@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * Created by Farkas on 2017.02.28..
  */
-@RestController
-@RequestMapping(value = "/api/event/{id}")
+//@RestController
+//@RequestMapping(value = "/api/event/{id}")
 public class DeleteEventController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteEventController.class);
@@ -26,7 +26,7 @@ public class DeleteEventController {
      * @param id that hold the id of the event.
      * @return http status in JSON format.
      * */
-    @RequestMapping(method = RequestMethod.DELETE)
+//    @RequestMapping(method = RequestMethod.DELETE)
     public ResponseEntity<EventDTO> deleteEvent(@PathVariable("id") int id){
         HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         if (id > 0){

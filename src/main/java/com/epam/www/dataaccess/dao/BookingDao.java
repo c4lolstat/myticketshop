@@ -15,5 +15,5 @@ public interface BookingDao {
 
     void createBooking(BookingDTO booking);
 
-    List readBookingsByUser(int userId);
+    List<Booking> readBookingsByUser(int userId);
 }

@@ -3,9 +3,11 @@ package com.epam.www.service.impl;
 import com.epam.www.auth.JwtUtil;
 import com.epam.www.dataaccess.dao.BookingDao;
 import com.epam.www.dataaccess.dao.HibernateDaoFacade;
+import com.epam.www.domain.DiscountEnums;
 import com.epam.www.domain.Price;
 import com.epam.www.dto.*;
 import com.epam.www.service.BookingService;
+import com.epam.www.service.DiscountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by Farkas on 2017.03.15..
@@ -30,15 +33,17 @@ public class BookingServiceImpl implements BookingService {
     private BookingDao bookingDao;
 
     @Autowired
+    private DiscountService discountService;
+
+    @Autowired
+    private PricingServiceImpl pricingService;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     private int vipSeats;
     private int normalSeats;
     private EventDTO eventDTO;
-
-    //TODO ask: how open should be a service? Is it adviced to define a public endpoint for everything?
-    //TODO ask: how unit test effectively bookTicket?
-    //TODO refactor this class when finished
 
     @Override
     public BookingInfoDTO getBookingInformation(int id) {
@@ -69,13 +74,12 @@ public class BookingServiceImpl implements BookingService {
 
     private void fulfillBooking(HttpServletRequest request) {
         UserDTO userDTO = this.getUserInformationFromRequest(request);
-        Price price = new Price.Calculator()
-                .withBasePrice(this.eventDTO.getPrice())
-                .withDiscount(userDTO.getDiscount())
-                .withNormalSeats(this.normalSeats)
-                .withVipSeats(this.vipSeats)
-                .calculate();
-        boolean payed = userDTO.getAccount() > price.getSumPrice();
+
+        List<DiscountEnums> discounts = discountService.getDiscountForUser(userDTO.getId());
+
+        Price price = pricingService.getPrice(this.normalSeats, this.vipSeats, this.eventDTO.getPrice(), discounts);
+
+        boolean payed = userDTO.getAccount().compareTo(price.getSumPrice()) == 1;
         BookingDTO bookingDTO = new BookingDTO.BookingBuilder()
                 .withUser(userDTO.getId())
                 .withEvent(this.eventDTO.getId())
@@ -103,7 +107,7 @@ public class BookingServiceImpl implements BookingService {
     private void transactBooking(UserDTO userDTO, BookingDTO bookingDTO){
         bookingDao.createBooking(bookingDTO);
         if (bookingDTO.isPayed()){
-            userDTO.setAccount(userDTO.getAccount()-bookingDTO.getSumPrice());
+            userDTO.setAccount(userDTO.getAccount().subtract(bookingDTO.getSumPrice()));
             hibernateDaoFacade.updateUser(userDTO);
         }
 

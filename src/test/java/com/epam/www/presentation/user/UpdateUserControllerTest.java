@@ -12,6 +12,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 
@@ -39,7 +41,7 @@ public class UpdateUserControllerTest {
         userDTO.setLastName("Rajongo");
         userDTO.setEmail("kevin.smith@gmail.com");
         userDTO.setPassword("1234");
-        userDTO.setAccount(555);
+        userDTO.setAccount(BigDecimal.ONE);
         userDTO.setDiscount("normal");
     }
 

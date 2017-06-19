@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
@@ -44,7 +46,7 @@ public class UserServiceTest {
         user.setLastName("Rajongo");
         user.setEmail("kevin.smith@gmail.com");
         user.setPassword("1234");
-        user.setAccount(555);
+        user.setAccount(BigDecimal.ZERO);
         user.setDiscount("normal");
 
         credentialDTO = new CredentialDTO();
@@ -78,7 +80,7 @@ public class UserServiceTest {
         assertEquals("Rajongo",result.getLastName());
         assertEquals("1234",result.getPassword());
         assertEquals("kevin.smith@gmail.com",result.getEmail());
-        assertEquals(555,result.getAccount());
+        assertEquals(BigDecimal.ZERO,result.getAccount());
         assertEquals("normal",result.getDiscount());
     }
 

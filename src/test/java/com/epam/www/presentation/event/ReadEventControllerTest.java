@@ -12,6 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class ReadEventControllerTest {
         eventDTO.setId(666);
         eventDTO.setAuditorium("Universal");
         eventDTO.setCounter(0);
-        eventDTO.setPrice(24L);
+        eventDTO.setPrice(BigDecimal.ZERO);
         eventDTO.setAirDate(222L);
         eventDTO.setTitle("Jay and Silent Bob strike back");
 

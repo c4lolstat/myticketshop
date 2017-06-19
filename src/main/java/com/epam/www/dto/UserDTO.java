@@ -2,12 +2,10 @@ package com.epam.www.dto;
 
 import com.epam.www.dataaccess.entity.User;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 /**
  * Created by Farkas on 2017.02.11..
@@ -22,7 +20,7 @@ public class UserDTO {
     @Email(message = "Email must be valid!")
     private String email = "";
     @Min(value = 0, message = "Account cannot be negative!")
-    private long account;
+    private BigDecimal account;
     private String discount = "";
 
     public UserDTO(){}
@@ -61,7 +59,7 @@ public class UserDTO {
         this.email = email;
     }
 
-    public void setAccount(long account) {
+    public void setAccount(BigDecimal account) {
         this.account = account;
     }
 
@@ -85,7 +83,7 @@ public class UserDTO {
         return email;
     }
 
-    public long getAccount() {
+    public BigDecimal getAccount() {
         return account;
     }
 

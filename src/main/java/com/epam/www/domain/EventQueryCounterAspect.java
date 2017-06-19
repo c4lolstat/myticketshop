@@ -30,6 +30,6 @@ public class EventQueryCounterAspect {
     }
 
     //TODO change this to count only user query
-    @Pointcut("execution(* com.epam.www.dataaccess.dao.impl.EventHibernate.readEventsWithParams(*))")
+    @Pointcut("execution(* com.epam.www.service.impl.EventServiceImpl.readEventsWithParams(*))")
     private void executeReadQuery(){}
 }

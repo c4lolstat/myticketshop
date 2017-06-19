@@ -12,6 +12,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 
@@ -30,13 +32,13 @@ public class CreateEventControllerTest {
     @InjectMocks
     private CreateEventController createEventController = new CreateEventController();
 
-    @Before
+   @Before
     public void setup(){
         eventDTO = new EventDTO();
         eventDTO.setId(666);
         eventDTO.setAuditorium("Universal");
         eventDTO.setCounter(0);
-        eventDTO.setPrice(24L);
+        eventDTO.setPrice(BigDecimal.ZERO);
         eventDTO.setAirDate(222L);
         eventDTO.setTitle("Jay and Silent Bob strike back");
     }

@@ -2,9 +2,11 @@ package com.epam.www.dataaccess.dao.impl;
 
 import com.epam.www.dataaccess.dao.*;
 import com.epam.www.dataaccess.entity.Auditorium;
+import com.epam.www.dataaccess.entity.Booking;
 import com.epam.www.dataaccess.entity.Event;
 import com.epam.www.dataaccess.entity.User;
 import com.epam.www.dto.AuditoriumDTO;
+import com.epam.www.dto.BookingDTO;
 import com.epam.www.dto.EventDTO;
 import com.epam.www.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +82,11 @@ public class HibernateDaoFacadeImpl implements HibernateDaoFacade {
     }
 
     @Override
-    public List readBookingsByUser(int userId) {
-        return this.bookingDao.readBookingsByUser(userId);
+    public List<BookingDTO> readBookingsByUser(int userId) {
+        List<BookingDTO> history = new ArrayList<>();
+        for(Booking booking : bookingDao.readBookingsByUser(userId)){
+            history.add(new BookingDTO.BookingBuilder().build(booking));
+        }
+        return history;
     }
 }

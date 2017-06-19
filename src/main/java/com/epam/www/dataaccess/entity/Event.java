@@ -1,8 +1,7 @@
 package com.epam.www.dataaccess.entity;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.math.BigDecimal;
 
 /**
  * Created by Farkas on 2017.02.23..
@@ -17,7 +16,7 @@ public class Event{
     private int id;
 
     private String title = "";
-    private long price;
+    private BigDecimal price;
     private long airDate;
     private String auditorium = "";
     private long counter;
@@ -47,11 +46,11 @@ public class Event{
         this.title = title;
     }
 
-    public long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
