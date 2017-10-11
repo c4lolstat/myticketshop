@@ -1,6 +1,5 @@
 package com.epam.www.dataaccess.dao.impl;
 
-import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.AuditoriumDao;
 import com.epam.www.dataaccess.entity.Auditorium;
 import com.epam.www.domain.QueryBuilder;
@@ -10,34 +9,35 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
  * Created by Farkas on 2017.03.15..
  */
 @Repository
-@Transactional
 public class AuditoriumHibernate implements AuditoriumDao{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuditoriumHibernate.class);
     private final String BASE_QUERY = "FROM Auditorium a WHERE";
-    private HibernateJPA hibernateJPA;
 
-    public AuditoriumHibernate (HibernateJPA hibernateJPA){
-        this.hibernateJPA = hibernateJPA;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
+    @Transactional
     public void createAuditorium(AuditoriumDTO auditoriumDTO) {
         Auditorium auditorium = new Auditorium();
         this.update(auditorium,auditoriumDTO);
-        this.hibernateJPA.getEntityManager().persist(auditorium);
+        entityManager.persist(auditorium);
     }
 
     @Override
+    @Transactional
     public Auditorium readAuditoriumByName(String name) {
         String query = new QueryBuilder().withBaseString(BASE_QUERY).withName(name).build();
-        List<Auditorium> auditoriums = this.hibernateJPA.getEntityManager().createQuery(query, Auditorium.class).getResultList();
+        List<Auditorium> auditoriums = entityManager.createQuery(query, Auditorium.class).getResultList();
         return auditoriums.get(0);
     }
 

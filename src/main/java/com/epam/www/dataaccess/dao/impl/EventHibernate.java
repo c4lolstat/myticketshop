@@ -1,6 +1,5 @@
 package com.epam.www.dataaccess.dao.impl;
 
-import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.EventDao;
 import com.epam.www.dataaccess.entity.Event;
 import com.epam.www.domain.QueryBuilder;
@@ -10,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,50 +19,49 @@ import java.util.Set;
  * Created by Farkas on 2017.02.23..
  */
 @Repository
-@Transactional
 public class EventHibernate implements EventDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventHibernate.class);
 
     private final String BASE_QUERY = "FROM Event WHERE";
 
-    private HibernateJPA hibernateJPA;
-
-    public EventHibernate(){}
-
-    public EventHibernate(HibernateJPA hibernateJPA){
-        this.hibernateJPA = hibernateJPA;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
+    @Transactional
     public void createEvent(EventDTO eventDTO) {
         Event event = new Event();
         this.update(event, eventDTO);
-        this.hibernateJPA.getEntityManager().persist(event);
+        entityManager.persist(event);
     }
 
     @Override
+    @Transactional
     public void updateEvent(EventDTO eventDTO) {
         Event event = this.readEventById(eventDTO.getId());
         this.update(event, eventDTO);
-        this.hibernateJPA.getEntityManager().flush();
+        entityManager.flush();
     }
 
+    @Transactional
     public void flushEvent() {
-        this.hibernateJPA.getEntityManager().flush();
+        entityManager.flush();
     }
 
     @Override
+    @Transactional
     public void deleteEvent(int id) {
         Event event = this.readEventById(id);
         event.setActive(false);
-        this.hibernateJPA.getEntityManager().flush();
+        entityManager.flush();
     }
 
     @Override
+    @Transactional
     public List<Event> readEventsWithParams(Map<String, String> params) {
       String query = buildQueryFromParamList(params);
-      List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query,Event.class).getResultList();
+      List<Event> eventRecord = entityManager.createQuery(query, Event.class).getResultList();
       return eventRecord;
     }
 
@@ -70,7 +70,7 @@ public class EventHibernate implements EventDao {
                 .withBaseString(BASE_QUERY)
                 .withId(Integer.valueOf(id).toString())
                 .build();
-        List<Event> eventRecord = this.hibernateJPA.getEntityManager().createQuery(query, Event.class).getResultList();
+        List<Event> eventRecord = entityManager.createQuery(query, Event.class).getResultList();
         return eventRecord.get(0);
     }
 
