@@ -1,6 +1,5 @@
 package com.epam.www.dataaccess.dao.impl;
 
-import com.epam.www.dataaccess.HibernateJPA;
 import com.epam.www.dataaccess.dao.BookingDao;
 import com.epam.www.dataaccess.entity.Booking;
 import com.epam.www.domain.QueryBuilder;
@@ -10,56 +9,58 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
  * Created by Farkas on 2017.03.15..
  */
 @Repository
-@Transactional
 public class BookingHibernate implements BookingDao{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookingHibernate.class);
     private final String BASE_QUERY = "FROM Booking WHERE";
 
-    private HibernateJPA hibernateJPA;
-
-    public BookingHibernate(HibernateJPA hibernateJPA){
-        this.hibernateJPA = hibernateJPA;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     //TODO handle Long somehow better
     @Override
+    @Transactional
     public Long countVipSeatsForEvent(int eventId) {
         String query = new QueryBuilder()
                 .withBaseString("SELECT SUM (vipSeats) " + BASE_QUERY)
                 .withEventId(eventId)
                 .build();
-        return (Long) this.hibernateJPA.getEntityManager().createQuery(query).getSingleResult();
+        return (Long) entityManager.createQuery(query).getSingleResult();
     }
 
     @Override
+    @Transactional
     public Long countNormalSeatsForEvent(int eventId) {
         String query = new QueryBuilder()
                 .withBaseString("SELECT SUM (normalSeats) " + BASE_QUERY)
                 .withEventId(eventId)
                 .build();
-        return (Long) this.hibernateJPA.getEntityManager().createQuery(query).getSingleResult();
+        return (Long) entityManager.createQuery(query).getSingleResult();
     }
 
     @Override
+    @Transactional
     public void createBooking(BookingDTO bookingDTO) {
         Booking booking = new Booking();
         this.update(booking, bookingDTO);
-        this.hibernateJPA.getEntityManager().persist(booking);
+        entityManager.persist(booking);
     }
 
     @Override
+    @Transactional
     public List readBookingsByUser(int userId) {
         String query = new QueryBuilder().withBaseString(BASE_QUERY)
                 .withUser(userId)
                 .build();
-        return this.hibernateJPA.getEntityManager().createQuery(query).getResultList();
+        return entityManager.createQuery(query).getResultList();
     }
 
     private void update(Booking booking, BookingDTO bookingDTO){

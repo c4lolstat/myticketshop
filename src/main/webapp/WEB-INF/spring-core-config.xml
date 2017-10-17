@@ -50,40 +50,27 @@
 			<map>
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
 				<entry key="hibernate.hbm2ddl.auto" value="create" />
-				<!--<entry key="hibernate.hbm2ddl.import_files" value="import_data.sql" />-->
 				<entry key="hibernate.show_sql" value="true" />
-
-				<entry key="hibernate.connection.url" value="jdbc:h2:/~test" />
-				<entry key="hibernate.connection.password" value="root" />
-				<entry key="hibernate.connection.username" value="root" />
 			</map>
 		</property>
 	</bean>
 
-	<!--<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"/>-->
+	<bean class="org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator"/>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<bean id="hibernateJPA" class="com.epam.www.dataaccess.HibernateJPA">
-		<!--<constructor-arg name="entityManagerFactory" ref="entityManagerFactory" />-->
-	</bean>
-
 	<bean id="userHibernate" class="com.epam.www.dataaccess.dao.impl.UserHibernate" >
-		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
 	</bean>
 
 	<bean id="eventHibernate" class="com.epam.www.dataaccess.dao.impl.EventHibernate" >
-		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
 	</bean>
 
 	<bean id="bookingHibernate" class="com.epam.www.dataaccess.dao.impl.BookingHibernate">
-		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
 	</bean>
 
 	<bean id="auditoriumHibernate" class="com.epam.www.dataaccess.dao.impl.AuditoriumHibernate">
-		<constructor-arg name="hibernateJPA" ref="hibernateJPA" />
 	</bean>
 
 </beans>
